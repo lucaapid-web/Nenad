@@ -6,12 +6,26 @@ import { Activity } from "@/data/activities";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { RouteButton } from "@/components/ui/RouteButton";
+import { PhotoSlot } from "@/components/ui/PhotoSlot";
 
 export function ActivityCard({ activity }: { activity: Activity }) {
   const { lang } = useLanguage();
 
   return (
-    <Card className="flex h-full flex-col gap-3">
+    <Card
+      className="flex h-full flex-col gap-3"
+      media={
+        <div className="group aspect-[4/3] overflow-hidden">
+          <PhotoSlot
+            category="activities"
+            alt={activity.name}
+            className="h-full w-full"
+            zoomOnHover
+            src={`/images/activities/${activity.id}.jpg`}
+          />
+        </div>
+      }
+    >
       <div className="flex items-start justify-between gap-2">
         <h3 className="font-display text-lg font-semibold text-sea-900">{activity.name}</h3>
         {activity.priceHint && <Badge tone="sea">{activity.priceHint[lang]}</Badge>}

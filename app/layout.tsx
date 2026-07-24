@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/components/i18n/LanguageProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
     <html lang="de" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="flex min-h-screen flex-col font-body">
         <LanguageProvider>
+          <ScrollProgress />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

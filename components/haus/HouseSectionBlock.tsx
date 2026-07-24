@@ -50,11 +50,15 @@ export function HouseSectionBlock({ section }: { section: HouseSection }) {
           </div>
 
           {section.imageId && (
-            <PhotoSlot
-              category="house"
-              alt={section.title[lang]}
-              className="min-h-[200px] rounded-2xl"
-            />
+            <div className="group overflow-hidden rounded-2xl">
+              <PhotoSlot
+                category="house"
+                alt={section.title[lang]}
+                className="min-h-[200px] h-full"
+                zoomOnHover
+                src={`/images/house/${section.imageId}.jpg`}
+              />
+            </div>
           )}
         </div>
       </FadeIn>

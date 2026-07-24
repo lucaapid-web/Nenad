@@ -14,6 +14,7 @@ const teasers = [
     icon: Utensils,
     key: "restaurants" as const,
     category: "restaurants" as const,
+    image: "/images/restaurants/konoba-trs.jpg",
     text: { de: "Gute und günstige Restaurants in der Nähe.", en: "Great and budget-friendly restaurants nearby." },
   },
   {
@@ -21,6 +22,7 @@ const teasers = [
     icon: Sailboat,
     key: "aktivitaeten" as const,
     category: "activities" as const,
+    image: "/images/activities/jetski-okrug.jpg",
     text: { de: "Jetski & Boot mieten – inkl. Routen-Start.", en: "Rent a jet ski or boat – with route start." },
   },
   {
@@ -28,6 +30,7 @@ const teasers = [
     icon: WavesIcon,
     key: "straende" as const,
     category: "beaches" as const,
+    image: "/images/beaches/plaza-okrug-gornji.jpg",
     text: { de: "Die schönsten Strände – und wo Seeigel lauern.", en: "The best beaches – and where sea urchins hide." },
   },
   {
@@ -35,6 +38,7 @@ const teasers = [
     icon: Music,
     key: "nightlife" as const,
     category: "house" as const,
+    image: "/images/nightlife/beach-bar-okrug.jpg",
     text: { de: "Bars und Clubs für den Abend.", en: "Bars and clubs for the evening." },
   },
 ];
@@ -58,7 +62,9 @@ export function UmgebungTeaser() {
         {teasers.map((t) => (
           <StaggerItem key={t.href}>
             <Link href={t.href} className="group block overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-              <PhotoSlot category={t.category} alt={t.text[lang]} className="h-32 w-full transition-transform duration-300 group-hover:scale-105" />
+              <div className="overflow-hidden">
+                <PhotoSlot category={t.category} alt={t.text[lang]} className="h-32 w-full" zoomOnHover src={t.image} />
+              </div>
               <div className="p-4">
                 <div className="mb-1 flex items-center gap-2 font-display font-semibold text-sea-900">
                   <t.icon className="h-4 w-4 text-terracotta-500" />

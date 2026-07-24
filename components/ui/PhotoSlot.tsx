@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { Image as ImageIcon } from "lucide-react";
@@ -18,17 +21,34 @@ export function PhotoSlot({
   category,
   className,
   showIcon = true,
+  zoomOnHover = false,
+  priority = false,
 }: {
   src?: string;
   alt: string;
   category: Category;
   className?: string;
   showIcon?: boolean;
+  zoomOnHover?: boolean;
+  priority?: boolean;
 }) {
-  if (src) {
+  const [failed, setFailed] = useState(false);
+
+  if (src && !failed) {
     return (
       <div className={clsx("relative overflow-hidden", className)}>
-        <Image src={src} alt={alt} fill className="object-cover" />
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority={priority}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className={clsx(
+            "object-cover",
+            zoomOnHover && "transition-transform duration-500 ease-out group-hover:scale-110"
+          )}
+          onError={() => setFailed(true)}
+        />
       </div>
     );
   }

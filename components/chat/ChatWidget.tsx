@@ -71,15 +71,35 @@ export function ChatWidget() {
 
   return (
     <>
-      <motion.button
-        onClick={() => setOpen((v) => !v)}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-terracotta-500 text-white shadow-lg"
-        aria-label={ui.chat.title[lang]}
-      >
-        {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </motion.button>
+      <div className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center">
+        {!open && (
+          <motion.span
+            animate={{ scale: [1, 1.7], opacity: [0.5, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
+            className="absolute inset-0 rounded-full bg-terracotta-500"
+          />
+        )}
+        <motion.button
+          onClick={() => setOpen((v) => !v)}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-terracotta-500 text-white shadow-lg"
+          aria-label={ui.chat.title[lang]}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={open ? "close" : "open"}
+              initial={{ opacity: 0, rotate: -90 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              exit={{ opacity: 0, rotate: 90 }}
+              transition={{ duration: 0.18 }}
+              className="flex"
+            >
+              {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+            </motion.span>
+          </AnimatePresence>
+        </motion.button>
+      </div>
 
       <AnimatePresence>
         {open && (
