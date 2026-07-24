@@ -15,7 +15,12 @@ const teasers = [
     key: "restaurants" as const,
     category: "restaurants" as const,
     image: "/images/restaurants/konoba-trs.jpg",
-    text: { de: "Gute und günstige Restaurants in der Nähe.", en: "Great and budget-friendly restaurants nearby." },
+    text: {
+      de: "Gute und günstige Restaurants in der Nähe.",
+      en: "Great and budget-friendly restaurants nearby.",
+      hr: "Dobri i pristupačni restorani u blizini.",
+      pl: "Dobre i tanie restauracje w pobliżu.",
+    },
   },
   {
     href: "/umgebung/aktivitaeten",
@@ -23,7 +28,12 @@ const teasers = [
     key: "aktivitaeten" as const,
     category: "activities" as const,
     image: "/images/activities/jetski-okrug.jpg",
-    text: { de: "Jetski & Boot mieten – inkl. Routen-Start.", en: "Rent a jet ski or boat – with route start." },
+    text: {
+      de: "Jetski & Boot mieten – inkl. Routen-Start.",
+      en: "Rent a jet ski or boat – with route start.",
+      hr: "Iznajmi jet ski ili brod – s pokretanjem rute.",
+      pl: "Wynajmij skuter wodny lub łódź – z opcją startu trasy.",
+    },
   },
   {
     href: "/umgebung/straende",
@@ -31,7 +41,12 @@ const teasers = [
     key: "straende" as const,
     category: "beaches" as const,
     image: "/images/beaches/plaza-okrug-gornji.jpg",
-    text: { de: "Die schönsten Strände – und wo Seeigel lauern.", en: "The best beaches – and where sea urchins hide." },
+    text: {
+      de: "Die schönsten Strände – und wo Seeigel lauern.",
+      en: "The best beaches – and where sea urchins hide.",
+      hr: "Najljepše plaže – i gdje vrebaju morski ježinci.",
+      pl: "Najpiękniejsze plaże – i gdzie czają się jeżowce.",
+    },
   },
   {
     href: "/umgebung/nightlife",
@@ -39,7 +54,12 @@ const teasers = [
     key: "nightlife" as const,
     category: "house" as const,
     image: "/images/nightlife/beach-bar-okrug.jpg",
-    text: { de: "Bars und Clubs für den Abend.", en: "Bars and clubs for the evening." },
+    text: {
+      de: "Bars und Clubs für den Abend.",
+      en: "Bars and clubs for the evening.",
+      hr: "Barovi i klubovi za večer.",
+      pl: "Bary i kluby na wieczór.",
+    },
   },
 ];
 
@@ -51,7 +71,7 @@ export function UmgebungTeaser() {
       <FadeIn>
         <div className="mb-6 flex items-end justify-between">
           <h2 className="font-display text-2xl font-semibold text-sea-900 sm:text-3xl">
-            {lang === "de" ? "Umgebung entdecken" : "Explore the surroundings"}
+            {ui.home.umgebungEntdeckenTitle[lang]}
           </h2>
           <Link href="/umgebung" className="text-sm font-semibold text-sea-700 hover:text-sea-900">
             {ui.common.mehrErfahren[lang]} →

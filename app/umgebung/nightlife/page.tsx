@@ -17,11 +17,7 @@ export default function NightlifePage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.umgebungSub.nightlife[lang]}
         </h1>
-        <p className="mb-4 max-w-xl text-sea-900/70">
-          {lang === "de"
-            ? "Für alle, die den Abend noch ausklingen lassen möchten."
-            : "For anyone who wants to keep the evening going."}
-        </p>
+        <p className="mb-4 max-w-xl text-sea-900/70">{ui.pages.nightlifeIntro[lang]}</p>
         <div className="mb-8">
           <DisclaimerNote text={nightlifeDisclaimer} />
         </div>

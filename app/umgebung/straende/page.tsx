@@ -17,11 +17,7 @@ export default function StraendePage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.umgebungSub.straende[lang]}
         </h1>
-        <p className="mb-4 max-w-xl text-sea-900/70">
-          {lang === "de"
-            ? "Von belebten Strandbars bis zu ruhigen Felsbuchten."
-            : "From lively beach bars to quiet rocky coves."}
-        </p>
+        <p className="mb-4 max-w-xl text-sea-900/70">{ui.pages.straendeIntro[lang]}</p>
         <div className="mb-8">
           <DisclaimerNote text={urchinWarningText} />
         </div>

@@ -1,12 +1,11 @@
 "use client";
 
 import { createContext, useEffect, useState, ReactNode } from "react";
-import { Lang } from "@/data/i18n/ui";
+import { Lang, ALL_LANGS } from "@/data/i18n/ui";
 
 interface LanguageContextValue {
   lang: Lang;
   setLang: (lang: Lang) => void;
-  toggleLang: () => void;
 }
 
 export const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -18,8 +17,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "de" || stored === "en") {
-      setLangState(stored);
+    if (stored && ALL_LANGS.some((l) => l.code === stored)) {
+      setLangState(stored as Lang);
     }
   }, []);
 
@@ -28,10 +27,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY, next);
   };
 
-  const toggleLang = () => setLang(lang === "de" ? "en" : "de");
-
   return (
-    <LanguageContext.Provider value={{ lang, setLang, toggleLang }}>
+    <LanguageContext.Provider value={{ lang, setLang }}>
       {children}
     </LanguageContext.Provider>
   );

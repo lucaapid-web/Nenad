@@ -13,10 +13,17 @@ export const beaches: Beach[] = [
   {
     id: "plaza-okrug-gornji",
     name: "Plaža Okrug Gornji",
-    surface: { de: "Kies/Beton, teils felsig", en: "Pebble/concrete, partly rocky" },
+    surface: {
+      de: "Kies/Beton, teils felsig",
+      en: "Pebble/concrete, partly rocky",
+      hr: "Šljunak/betonu, dijelom stjenovito",
+      pl: "Żwir/beton, częściowo skaliste",
+    },
     description: {
       de: "Der Hausstrand direkt vor Ort – gut für kurze Abkühlungen zwischendurch, mehrere Strandbars in Laufnähe.",
       en: "The local beach right on the doorstep – great for a quick dip, several beach bars nearby.",
+      hr: "Lokalna plaža odmah pored smještaja – idealna za brzo osvježenje, nekoliko plažnih barova u blizini.",
+      pl: "Lokalna plaża tuż przy zakwaterowaniu – idealna na szybką kąpiel, kilka barów plażowych w pobliżu.",
     },
     urchinWarning: true,
     mapsQuery: "Plaža Okrug Gornji Croatia",
@@ -24,10 +31,12 @@ export const beaches: Beach[] = [
   {
     id: "copacabana-okrug",
     name: "Copacabana Beach Okrug Gornji",
-    surface: { de: "Kies", en: "Pebble" },
+    surface: { de: "Kies", en: "Pebble", hr: "Šljunak", pl: "Żwir" },
     description: {
       de: "Belebter Abschnitt mit Liegen, Sonnenschirmen und Wassersport-Verleih.",
       en: "Lively stretch with sun loungers, umbrellas and water sports rentals.",
+      hr: "Živahan dio plaže s ležaljkama, suncobranima i iznajmljivanjem vodenih sportova.",
+      pl: "Tętniący życiem odcinek z leżakami, parasolami i wypożyczalnią sprzętu wodnego.",
     },
     urchinWarning: false,
     mapsQuery: "Copacabana Beach Okrug Gornji Croatia",
@@ -35,10 +44,17 @@ export const beaches: Beach[] = [
   {
     id: "medena-beach",
     name: "Medena Beach (Seget Donji)",
-    surface: { de: "Kies, familienfreundlich", en: "Pebble, family-friendly" },
+    surface: {
+      de: "Kies, familienfreundlich",
+      en: "Pebble, family-friendly",
+      hr: "Šljunak, pogodno za obitelji",
+      pl: "Żwir, przyjazna rodzinom",
+    },
     description: {
       de: "Flach abfallender, ruhiger Strand – gut geeignet für Familien mit kleinen Kindern.",
       en: "Gently sloping, calm beach – well suited for families with young children.",
+      hr: "Strand s blagim ulazom u more i mirnom vodom – pogodan za obitelji s malom djecom.",
+      pl: "Łagodnie opadająca, spokojna plaża – dobrze nadaje się dla rodzin z małymi dziećmi.",
     },
     urchinWarning: false,
     mapsQuery: "Medena Beach Seget Donji Croatia",
@@ -46,10 +62,12 @@ export const beaches: Beach[] = [
   {
     id: "ciovo-felsen",
     name: "Felsbuchten bei Čiovo",
-    surface: { de: "Fels", en: "Rocky" },
+    surface: { de: "Fels", en: "Rocky", hr: "Stijena", pl: "Skały" },
     description: {
       de: "Versteckte, ruhige Buchten mit klarem Wasser – etwas abenteuerlicher Zugang, dafür weniger Trubel.",
       en: "Hidden, quiet coves with clear water – a bit more of an adventurous access, but far less crowded.",
+      hr: "Skrivene, mirne uvale s bistrom vodom – malo avanturističkiji pristup, ali znatno manje gužve.",
+      pl: "Ukryte, ciche zatoczki z czystą wodą – dojście trochę bardziej wymagające, ale znacznie mniej tłoczno.",
     },
     urchinWarning: true,
     mapsQuery: "Čiovo rocky coves Croatia",
@@ -59,4 +77,6 @@ export const beaches: Beach[] = [
 export const urchinWarningText: Bilingual = {
   de: "Achtung Seeigel: Besonders an felsigen Stränden und Buchten rund um Okrug und Čiovo gibt es Seeigel. Badeschuhe schützen zuverlässig vor schmerzhaften Stichen.",
   en: "Watch out for sea urchins: especially on rocky beaches and coves around Okrug and Čiovo, sea urchins are common. Reef/water shoes reliably protect against painful stings.",
+  hr: "Pažnja, morski ježinci: posebno na stjenovitim plažama i uvalama oko Okruga i Čiova ima morskih ježinaca. Cipele za kupanje pouzdano štite od bolnih uboda.",
+  pl: "Uwaga na jeżowce: szczególnie na skalistych plażach i w zatoczkach wokół Okrug i Čiovo występują jeżowce. Buty do wody skutecznie chronią przed bolesnymi ukłuciami.",
 };

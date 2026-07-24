@@ -17,11 +17,7 @@ export default function RestaurantsPage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.umgebungSub.restaurants[lang]}
         </h1>
-        <p className="mb-4 max-w-xl text-sea-900/70">
-          {lang === "de"
-            ? "Von gehobener Küche bis zur schnellen, günstigen Pizza."
-            : "From upscale dining to a quick, affordable pizza."}
-        </p>
+        <p className="mb-4 max-w-xl text-sea-900/70">{ui.pages.restaurantsIntro[lang]}</p>
         <div className="mb-8">
           <DisclaimerNote text={restaurantsDisclaimer} />
         </div>

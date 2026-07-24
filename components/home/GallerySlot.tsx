@@ -1,15 +1,48 @@
 "use client";
 
 import { useLanguage } from "@/lib/language";
+import { ui } from "@/data/i18n/ui";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { StaggerList, StaggerItem } from "@/components/motion/StaggerList";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
 
 const galleryItems = [
-  { id: "terrasse", alt: { de: "Terrasse mit Sitzbereich", en: "Terrace with seating area" } },
-  { id: "wohnbereich", alt: { de: "Gemütlicher Wohnbereich", en: "Cozy living room" } },
-  { id: "garten", alt: { de: "Garten mit Hängematte", en: "Garden with hammock" } },
-  { id: "aussenansicht", alt: { de: "Außenansicht der Unterkunft", en: "Exterior view of the property" } },
+  {
+    id: "terrasse",
+    alt: {
+      de: "Terrasse mit Sitzbereich",
+      en: "Terrace with seating area",
+      hr: "Terasa s prostorom za sjedenje",
+      pl: "Taras z miejscem do siedzenia",
+    },
+  },
+  {
+    id: "wohnbereich",
+    alt: {
+      de: "Gemütlicher Wohnbereich",
+      en: "Cozy living room",
+      hr: "Ugodan dnevni boravak",
+      pl: "Przytulny salon",
+    },
+  },
+  {
+    id: "garten",
+    alt: {
+      de: "Garten mit Hängematte",
+      en: "Garden with hammock",
+      hr: "Vrt s ležaljkom",
+      pl: "Ogród z hamakiem",
+    },
+  },
+  {
+    id: "aussenansicht",
+    alt: {
+      de: "Außenansicht der Unterkunft",
+      en: "Exterior view of the property",
+      hr: "Vanjski izgled smještaja",
+      pl: "Widok zewnętrzny nieruchomości",
+    },
+  },
 ];
 
 export function GallerySlot() {
@@ -19,7 +52,7 @@ export function GallerySlot() {
     <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
       <FadeIn>
         <h2 className="mb-6 text-center font-display text-2xl font-semibold text-sea-900 sm:text-3xl">
-          {lang === "de" ? "Ein Eindruck von zu Hause" : "A glimpse of home"}
+          {ui.home.glimpseOfHome[lang]}
         </h2>
       </FadeIn>
       <StaggerList className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">

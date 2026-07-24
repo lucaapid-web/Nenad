@@ -15,7 +15,12 @@ const sections = [
     key: "restaurants" as const,
     category: "restaurants" as const,
     image: "/images/restaurants/riva-fish.jpg",
-    text: { de: "Gute und preisgünstige Restaurants in Okrug Gornji und Trogir.", en: "Great and budget-friendly restaurants in Okrug Gornji and Trogir." },
+    text: {
+      de: "Gute und preisgünstige Restaurants in Okrug Gornji und Trogir.",
+      en: "Great and budget-friendly restaurants in Okrug Gornji and Trogir.",
+      hr: "Dobri i pristupačni restorani u Okrug Gornjem i Trogiru.",
+      pl: "Dobre i tanie restauracje w Okrug Gornji i Trogirze.",
+    },
   },
   {
     href: "/umgebung/aktivitaeten",
@@ -23,7 +28,12 @@ const sections = [
     key: "aktivitaeten" as const,
     category: "activities" as const,
     image: "/images/activities/boot-trogir.jpg",
-    text: { de: "Jetski, Boot & Kajak mieten – inkl. Lizenz-Hinweisen und Routen-Start.", en: "Rent a jet ski, boat or kayak – incl. license notes and one-tap route start." },
+    text: {
+      de: "Jetski, Boot & Kajak mieten – inkl. Lizenz-Hinweisen und Routen-Start.",
+      en: "Rent a jet ski, boat or kayak – incl. license notes and one-tap route start.",
+      hr: "Iznajmi jetski, brod ili kajak – uz napomene o dozvolama i pokretanje rute.",
+      pl: "Wynajmij skuter wodny, łódź lub kajak – z informacjami o licencjach i startem trasy.",
+    },
   },
   {
     href: "/umgebung/straende",
@@ -31,7 +41,12 @@ const sections = [
     key: "straende" as const,
     category: "beaches" as const,
     image: "/images/beaches/ciovo-felsen.jpg",
-    text: { de: "Die schönsten Strände rund um Okrug und Čiovo – inkl. Seeigel-Warnung.", en: "The best beaches around Okrug and Čiovo – incl. sea urchin warning." },
+    text: {
+      de: "Die schönsten Strände rund um Okrug und Čiovo – inkl. Seeigel-Warnung.",
+      en: "The best beaches around Okrug and Čiovo – incl. sea urchin warning.",
+      hr: "Najljepše plaže oko Okruga i Čiova – uz upozorenje o morskim ježincima.",
+      pl: "Najpiękniejsze plaże wokół Okrug i Čiovo – wraz z ostrzeżeniem o jeżowcach.",
+    },
   },
   {
     href: "/umgebung/nightlife",
@@ -39,7 +54,12 @@ const sections = [
     key: "nightlife" as const,
     category: "house" as const,
     image: "/images/nightlife/lounge-ciovo.jpg",
-    text: { de: "Bars, Lounges und Clubs für den Abend.", en: "Bars, lounges and clubs for the evening." },
+    text: {
+      de: "Bars, Lounges und Clubs für den Abend.",
+      en: "Bars, lounges and clubs for the evening.",
+      hr: "Barovi, loungeovi i klubovi za večer.",
+      pl: "Bary, lounge i kluby na wieczór.",
+    },
   },
 ];
 
@@ -52,11 +72,7 @@ export default function UmgebungPage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.nav.umgebung[lang]}
         </h1>
-        <p className="mb-8 max-w-xl text-sea-900/70">
-          {lang === "de"
-            ? "Okrug Gornji und die Umgebung haben einiges zu bieten – hier findest du alles auf einen Blick."
-            : "Okrug Gornji and its surroundings have a lot to offer – find everything at a glance here."}
-        </p>
+        <p className="mb-8 max-w-xl text-sea-900/70">{ui.pages.umgebungHubIntro[lang]}</p>
       </FadeIn>
 
       <StaggerList className="grid gap-5 sm:grid-cols-2">

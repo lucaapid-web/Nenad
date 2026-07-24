@@ -17,11 +17,7 @@ export default function KontaktPage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.nav.kontakt[lang]}
         </h1>
-        <p className="mb-6 text-sea-900/70">
-          {lang === "de"
-            ? "Bei Fragen oder Anliegen rund um deinen Aufenthalt meld dich jederzeit gerne."
-            : "For any questions or concerns about your stay, feel free to reach out any time."}
-        </p>
+        <p className="mb-6 text-sea-900/70">{ui.pages.kontaktIntro[lang]}</p>
       </FadeIn>
 
       <FadeIn delay={0.1}>
@@ -32,9 +28,7 @@ export default function KontaktPage() {
             </div>
             <div>
               <p className="font-display text-lg font-semibold text-sea-900">{contact.name}</p>
-              <p className="text-sm text-sea-900/60">
-                {lang === "de" ? "Gastgeber" : "Host"}
-              </p>
+              <p className="text-sm text-sea-900/60">{ui.common.gastgeber[lang]}</p>
             </div>
           </div>
           <p className="text-sea-900/80">{contact.phoneDisplay}</p>

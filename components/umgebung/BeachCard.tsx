@@ -2,6 +2,7 @@
 
 import { AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/lib/language";
+import { ui } from "@/data/i18n/ui";
 import { Beach } from "@/data/beaches";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -34,7 +35,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
       {beach.urchinWarning && (
         <div className="flex items-start gap-2 rounded-xl bg-sun-400/15 px-3 py-2.5 text-xs text-sea-900/80">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-sun-600" />
-          <p>{lang === "de" ? "Achtung: Seeigel möglich – Badeschuhe empfohlen." : "Caution: sea urchins possible – water shoes recommended."}</p>
+          <p>{ui.pages.seeigelWarnungKurz[lang]}</p>
         </div>
       )}
       <RouteButton mapsQuery={beach.mapsQuery} />

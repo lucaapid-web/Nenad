@@ -17,11 +17,7 @@ export default function AktivitaetenPage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.umgebungSub.aktivitaeten[lang]}
         </h1>
-        <p className="mb-4 max-w-xl text-sea-900/70">
-          {lang === "de"
-            ? "Jetski, Boot oder Kajak – mit einem Klick direkt zur Route."
-            : "Jet ski, boat or kayak – one tap to start your route."}
-        </p>
+        <p className="mb-4 max-w-xl text-sea-900/70">{ui.pages.aktivitaetenIntro[lang]}</p>
         <div className="mb-8">
           <DisclaimerNote text={activitiesDisclaimer} />
         </div>

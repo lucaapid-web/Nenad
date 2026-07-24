@@ -19,18 +19,14 @@ export default function AnreisePage() {
         <h1 className="mb-2 font-display text-3xl font-semibold text-sea-900 sm:text-4xl">
           {ui.nav.anreise[lang]}
         </h1>
-        <p className="mb-6 max-w-xl text-sea-900/70">
-          {lang === "de"
-            ? "So findest du zu deinem Zuhause auf Zeit in Okrug Gornji."
-            : "Here's how to find your home away from home in Okrug Gornji."}
-        </p>
+        <p className="mb-6 max-w-xl text-sea-900/70">{ui.pages.anreiseIntro[lang]}</p>
       </FadeIn>
 
       <FadeIn delay={0.1}>
         <Card className="mb-10 flex flex-col gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-sea-900/50">
-              {lang === "de" ? "Adresse" : "Address"}
+              {ui.pages.adresseLabel[lang]}
             </p>
             <p className="font-display text-xl font-semibold text-sea-900">
               {property.addressLine}
