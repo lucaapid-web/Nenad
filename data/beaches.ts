@@ -6,6 +6,7 @@ export interface Beach {
   surface: Bilingual;
   description: Bilingual;
   urchinWarning: boolean;
+  personalNote?: Bilingual;
   mapsQuery: string;
 }
 
@@ -26,6 +27,12 @@ export const beaches: Beach[] = [
       pl: "Lokalna plaża tuż przy zakwaterowaniu – idealna na szybką kąpiel, kilka barów plażowych w pobliżu.",
     },
     urchinWarning: true,
+    personalNote: {
+      de: "Mein Tipp: einfach zu Fuß hin, perfekt für eine schnelle Abkühlung zwischendurch.",
+      en: "My tip: just walk over, perfect for a quick dip whenever you feel like it.",
+      hr: "Moj savjet: jednostavno pješice, savršeno za brzo osvježenje kad god poželite.",
+      pl: "Moja rada: po prostu pieszo, idealne na szybkie orzeźwienie w dowolnej chwili.",
+    },
     mapsQuery: "Plaža Okrug Gornji Croatia",
   },
   {
@@ -70,6 +77,12 @@ export const beaches: Beach[] = [
       pl: "Ukryte, ciche zatoczki z czystą wodą – dojście trochę bardziej wymagające, ale znacznie mniej tłoczno.",
     },
     urchinWarning: true,
+    personalNote: {
+      de: "Wenn du es ruhiger magst, ist das mein persönlicher Geheimtipp – wunderschön, aber weniger bekannt.",
+      en: "If you like it quieter, this is my personal hidden gem – beautiful but less known.",
+      hr: "Ako voliš mirnije, ovo je moj osobni skriveni biser – prekrasno, ali manje poznato.",
+      pl: "Jeśli lubisz spokój, to moja osobista perełka – piękne, ale mniej znane.",
+    },
     mapsQuery: "Čiovo rocky coves Croatia",
   },
 ];

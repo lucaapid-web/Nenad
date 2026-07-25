@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { RouteButton } from "@/components/ui/RouteButton";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { PersonalNote } from "@/components/ui/PersonalNote";
 
 export function BeachCard({ beach }: { beach: Beach }) {
   const { lang } = useLanguage();
@@ -38,6 +39,7 @@ export function BeachCard({ beach }: { beach: Beach }) {
           <p>{ui.pages.seeigelWarnungKurz[lang]}</p>
         </div>
       )}
+      {beach.personalNote && <PersonalNote text={beach.personalNote} />}
       <RouteButton mapsQuery={beach.mapsQuery} />
     </Card>
   );

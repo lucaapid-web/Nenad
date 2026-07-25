@@ -7,6 +7,7 @@ export interface Activity {
   priceHint?: Bilingual;
   description: Bilingual;
   licenseNote: Bilingual;
+  personalNote?: Bilingual;
   mapsQuery: string;
 }
 
@@ -39,6 +40,12 @@ export const activities: Activity[] = [
       en: "Jet skis in Croatia generally require a boating license or an International Certificate of Competence (ICC); some rentals accept a short briefing instead. Please confirm current requirements directly with the provider.",
       hr: "Za jet ski se u Hrvatskoj obično traži dozvola za upravljanje brodicom odnosno međunarodna svjedodžba (ICC), no ponekad je dovoljna kratka uputa od strane iznajmljivača. Aktualne zahtjeve provjerite izravno kod pružatelja usluge.",
       pl: "Do jazdy na skuterze wodnym w Chorwacji zazwyczaj wymagany jest patent motorowodny lub międzynarodowy certyfikat kompetencji (ICC); niektóre wypożyczalnie akceptują krótki instruktaż. Aktualne wymagania prosimy potwierdzić bezpośrednio u dostawcy.",
+    },
+    personalNote: {
+      de: "Für einen Adrenalinkick zwischendurch schicke ich Gäste am liebsten hierhin – direkt am Hausstrand.",
+      en: "For a quick adrenaline rush, this is where I send guests first – right on our home beach.",
+      hr: "Za dozu adrenalina gostima najradije preporučim baš ovo – odmah na našoj plaži.",
+      pl: "Na dawkę adrenaliny najchętniej polecam gościom właśnie to miejsce – tuż przy naszej plaży.",
     },
     mapsQuery: "Jet Ski Rental Okrug Gornji Croatia",
   },
@@ -87,6 +94,12 @@ export const activities: Activity[] = [
       en: "No license needed for kayaks or SUP, a life vest is recommended.",
       hr: "Za kajak i SUP nije potrebna dozvola, preporučuje se prsluk za spašavanje.",
       pl: "Do kajaka i SUP-a nie jest potrzebna licencja, zalecana jest kamizelka ratunkowa.",
+    },
+    personalNote: {
+      de: "Meine Empfehlung für einen ruhigen Vormittag – die Buchten dort sind wirklich idyllisch.",
+      en: "My tip for a calm morning – the bays there are truly idyllic.",
+      hr: "Moja preporuka za miran jutarnji izlazak – uvale su tamo stvarno idilične.",
+      pl: "Mój sposób na spokojny poranek – tamtejsze zatoczki są naprawdę urokliwe.",
     },
     mapsQuery: "Kayak SUP Rental Okrug Gornji Croatia",
   },

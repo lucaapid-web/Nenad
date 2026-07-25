@@ -55,7 +55,7 @@ export function Header() {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-40 bg-gradient-to-r from-sea-900 via-sea-700 to-sea-500 text-white transition-shadow duration-300",
+        "sticky top-0 z-40 bg-gradient-to-r from-sea-900 via-sea-700 to-sea-500 text-white transition-shadow duration-300 print:hidden",
         scrolled ? "shadow-lg" : "shadow-none"
       )}
     >

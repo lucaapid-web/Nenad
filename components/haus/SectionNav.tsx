@@ -7,7 +7,7 @@ export function SectionNav() {
   const { lang } = useLanguage();
 
   return (
-    <div className="sticky top-[57px] z-30 -mx-4 mb-8 overflow-x-auto border-b border-sand-200 bg-sand-50/95 px-4 py-3 backdrop-blur sm:top-[65px] sm:mx-0 sm:rounded-full sm:border sm:px-2">
+    <div className="sticky top-[57px] z-30 -mx-4 mb-8 overflow-x-auto border-b border-sand-200 bg-sand-50/95 px-4 py-3 backdrop-blur sm:top-[65px] sm:mx-0 sm:rounded-full sm:border sm:px-2 print:hidden">
       <div className="flex w-max gap-1 sm:w-auto sm:justify-center sm:flex-wrap">
         {houseSections.map((s) => (
           <a

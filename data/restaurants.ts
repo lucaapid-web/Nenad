@@ -8,6 +8,7 @@ export interface Restaurant {
   tier: PriceTier;
   cuisine: Bilingual;
   description: Bilingual;
+  personalNote?: Bilingual;
   mapsQuery: string;
 }
 
@@ -35,6 +36,12 @@ export const restaurants: Restaurant[] = [
       hr: "Obiteljska konoba s fokusom na svježu ribu i roštilj, ugodno dvorište.",
       pl: "Rodzinna konoba specjalizująca się w świeżych rybach i daniach z grilla, przytulny dziedziniec.",
     },
+    personalNote: {
+      de: "Hierhin gehe ich selbst am liebsten, wenn ich Lust auf richtig frischen Fisch habe – ein echter Geheimtipp.",
+      en: "This is where I go myself when I'm craving really fresh fish – a genuine hidden gem.",
+      hr: "Ovamo ja sam najradije odem kad poželim stvarno svježu ribu – pravi mali skriveni biser.",
+      pl: "Tu sam najchętniej przychodzę, gdy mam ochotę na naprawdę świeżą rybę – prawdziwa mała perełka.",
+    },
     mapsQuery: "Konoba Trogir Croatia",
   },
   {
@@ -52,6 +59,12 @@ export const restaurants: Restaurant[] = [
       en: "Waterfront restaurant on Trogir's promenade – great for a special evening.",
       hr: "Restoran uz samu rivu u Trogiru s pogledom na more – idealan za poseban izlazak.",
       pl: "Restauracja tuż przy promenadzie w Trogirze z widokiem na wodę – idealna na wyjątkowy wieczór.",
+    },
+    personalNote: {
+      de: "Für besondere Anlässe reserviere ich hier gerne einen Tisch mit Blick aufs Wasser.",
+      en: "For special occasions, I love booking a table here with a view of the water.",
+      hr: "Za posebne prigode rado ovdje rezerviram stol s pogledom na more.",
+      pl: "Na wyjątkowe okazje chętnie rezerwuję tu stolik z widokiem na wodę.",
     },
     mapsQuery: "Riva Restaurant Trogir",
   },
@@ -88,6 +101,12 @@ export const restaurants: Restaurant[] = [
       en: "Small bistro with daily specials at fair prices – popular with locals.",
       hr: "Malen bistro s dnevnim jelovnikom po povoljnim cijenama – omiljen kod mještana.",
       pl: "Mały bistro z daniami dnia w rozsądnych cenach – popularny wśród mieszkańców.",
+    },
+    personalNote: {
+      de: "Ein echter Local-Favorit – hier isst du wie die Nachbarn.",
+      en: "A real local favorite – here you eat just like the neighbors do.",
+      hr: "Pravi lokalni favorit – ovdje jedeš kao susjedi.",
+      pl: "Prawdziwy lokalny faworyt – jesz tu tak jak sąsiedzi.",
     },
     mapsQuery: "Bistro Okrug Donji Croatia",
   },

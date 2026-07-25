@@ -5,7 +5,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import { Image as ImageIcon } from "lucide-react";
 
-type Category = "hero" | "house" | "beaches" | "restaurants" | "activities";
+type Category = "hero" | "house" | "beaches" | "restaurants" | "activities" | "nightlife" | "host";
 
 const categoryGradients: Record<Category, string> = {
   hero: "from-sea-700 via-sea-500 to-sun-400",
@@ -13,6 +13,8 @@ const categoryGradients: Record<Category, string> = {
   beaches: "from-sea-500 to-sea-100",
   restaurants: "from-sand-300 to-terracotta-300",
   activities: "from-olive-500 to-sea-300",
+  nightlife: "from-sea-900 via-sea-700 to-terracotta-500",
+  host: "from-terracotta-500 via-sun-500 to-sun-400",
 };
 
 export function PhotoSlot({

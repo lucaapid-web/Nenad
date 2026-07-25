@@ -41,4 +41,5 @@ Sobald Nenad eigene Fotos hat, einfach die Datei unter demselben Zielpfad ersetz
 - `restaurants/` – Restaurants (Dateiname = `id` aus `data/restaurants.ts`)
 - `activities/` – Jetski/Boot/Kajak (Dateiname = `id` aus `data/activities.ts`)
 - `nightlife/` – Bars/Clubs (Dateiname = `id` aus `data/nightlife.ts`)
+- `host/nenad.jpg` – Porträtfoto von Nenad für die „Über mich"-Sektion auf Startseite und Kontaktseite (noch kein KI-generiertes Bild vorhanden, hier bietet sich ein echtes Foto an)
 - `og/` – Social-Media-Vorschaubild (optional)

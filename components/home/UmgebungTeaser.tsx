@@ -52,7 +52,7 @@ const teasers = [
     href: "/umgebung/nightlife",
     icon: Music,
     key: "nightlife" as const,
-    category: "house" as const,
+    category: "nightlife" as const,
     image: "/images/nightlife/beach-bar-okrug.jpg",
     text: {
       de: "Bars und Clubs für den Abend.",

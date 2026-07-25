@@ -13,7 +13,7 @@ export function ScrollProgress() {
   return (
     <motion.div
       style={{ scaleX }}
-      className="fixed left-0 right-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-terracotta-500 via-sun-500 to-sea-500"
+      className="fixed left-0 right-0 top-0 z-50 h-0.5 origin-left bg-gradient-to-r from-terracotta-500 via-sun-500 to-sea-500 print:hidden"
     />
   );
 }

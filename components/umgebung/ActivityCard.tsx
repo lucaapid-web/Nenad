@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { RouteButton } from "@/components/ui/RouteButton";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { PersonalNote } from "@/components/ui/PersonalNote";
 
 export function ActivityCard({ activity }: { activity: Activity }) {
   const { lang } = useLanguage();
@@ -35,6 +36,7 @@ export function ActivityCard({ activity }: { activity: Activity }) {
         <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-terracotta-500" />
         <p>{activity.licenseNote[lang]}</p>
       </div>
+      {activity.personalNote && <PersonalNote text={activity.personalNote} />}
       <div className="mt-auto pt-1">
         <RouteButton mapsQuery={activity.mapsQuery} />
       </div>

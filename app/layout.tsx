@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { siteUrl } from "@/data/contact";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -20,7 +21,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nenad's Guide – Okrug Gornji",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Nenad's Guide – Okrug Gornji",
+    template: "%s",
+  },
   description:
     "Alle Infos zu deiner Unterkunft in Okrug Gornji, Kroatien: Hausregeln, WLAN, Anreise und die schönsten Ecken der Umgebung.",
 };

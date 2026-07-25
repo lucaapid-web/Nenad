@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 import { useLanguage } from "@/lib/language";
 import { ui } from "@/data/i18n/ui";
 import { FadeIn } from "@/components/motion/FadeIn";
@@ -47,6 +50,7 @@ const galleryItems = [
 
 export function GallerySlot() {
   const { lang } = useLanguage();
+  const [openItem, setOpenItem] = useState<(typeof galleryItems)[number] | null>(null);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
@@ -58,7 +62,11 @@ export function GallerySlot() {
       <StaggerList className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {galleryItems.map((item) => (
           <StaggerItem key={item.id}>
-            <div className="group aspect-square overflow-hidden rounded-2xl">
+            <button
+              type="button"
+              onClick={() => setOpenItem(item)}
+              className="group block aspect-square w-full overflow-hidden rounded-2xl"
+            >
               <PhotoSlot
                 category="house"
                 alt={item.alt[lang]}
@@ -66,10 +74,47 @@ export function GallerySlot() {
                 zoomOnHover
                 src={`/images/house/${item.id}.jpg`}
               />
-            </div>
+            </button>
           </StaggerItem>
         ))}
       </StaggerList>
+
+      <AnimatePresence>
+        {openItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-sea-900/80 p-4 backdrop-blur-sm"
+            onClick={() => setOpenItem(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.94 }}
+              transition={{ duration: 0.2 }}
+              className="relative aspect-[4/3] w-full max-w-2xl overflow-hidden rounded-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <PhotoSlot
+                category="house"
+                alt={openItem.alt[lang]}
+                className="h-full w-full"
+                src={`/images/house/${openItem.id}.jpg`}
+              />
+              <button
+                type="button"
+                onClick={() => setOpenItem(null)}
+                aria-label="Close"
+                className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-sea-900/60 text-white transition hover:bg-sea-900/80"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

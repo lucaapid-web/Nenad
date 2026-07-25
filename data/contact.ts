@@ -11,3 +11,6 @@ export const property = {
   fullAddressForMaps: "Ulica kralja Petra Krešimira IV 29, Okrug Gornji, Croatia",
   appleMapsUrl: "https://maps.apple/p/y5I0AeWtbANgyc",
 };
+
+// Override via NEXT_PUBLIC_SITE_URL once the site is deployed (e.g. to Netlify).
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://nenads-guide.netlify.app";

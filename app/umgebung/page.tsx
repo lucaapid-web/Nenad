@@ -52,7 +52,7 @@ const sections = [
     href: "/umgebung/nightlife",
     icon: Music,
     key: "nightlife" as const,
-    category: "house" as const,
+    category: "nightlife" as const,
     image: "/images/nightlife/lounge-ciovo.jpg",
     text: {
       de: "Bars, Lounges und Clubs für den Abend.",

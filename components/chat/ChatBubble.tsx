@@ -8,12 +8,14 @@ export function ChatBubble({
   text: string;
   from: "bot" | "user";
 }) {
+  const isUser = from === "user";
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-      className={clsx("flex", from === "user" ? "justify-end" : "justify-start")}
+      initial={isUser ? { opacity: 0, scale: 0.9, y: 8 } : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className={clsx("flex", isUser ? "justify-end" : "justify-start")}
     >
       <div
         className={clsx(

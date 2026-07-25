@@ -5,6 +5,7 @@ export interface NightlifeSpot {
   name: string;
   type: Bilingual;
   description: Bilingual;
+  personalNote?: Bilingual;
   mapsQuery: string;
 }
 
@@ -25,6 +26,12 @@ export const nightlifeSpots: NightlifeSpot[] = [
       en: "Relaxed cocktail bar right by the water, great sunset vibes.",
       hr: "Opušten koktel bar tik uz more, odlična atmosfera za zalazak sunca.",
       pl: "Zrelaksowany bar z koktajlami tuż nad wodą, świetny klimat o zachodzie słońca.",
+    },
+    personalNote: {
+      de: "Zum Sonnenuntergang gehe ich hier selbst am liebsten auf einen Cocktail vorbei.",
+      en: "For sunset drinks, this is where I love to stop by myself.",
+      hr: "Za piće uz zalazak sunca ja sam najradije ovdje.",
+      pl: "Na drinka o zachodzie słońca najchętniej wpadam właśnie tutaj.",
     },
     mapsQuery: "Beach Bar Okrug Gornji Croatia",
   },
@@ -49,6 +56,12 @@ export const nightlifeSpots: NightlifeSpot[] = [
       en: "Quieter lounge with a terrace, good for a relaxed nightcap.",
       hr: "Mirniji lounge s terasom za opušteno piće za kraj večeri.",
       pl: "Spokojniejszy lounge z tarasem, dobry na relaksujący drink na koniec wieczoru.",
+    },
+    personalNote: {
+      de: "Für einen entspannten Absacker ohne Trubel ist das mein persönlicher Favorit.",
+      en: "For a relaxed nightcap without the crowds, this is my personal favorite.",
+      hr: "Za opušteno piće za kraj večeri bez gužve, ovo mi je osobni favorit.",
+      pl: "Na spokojnego drinka na koniec wieczoru bez tłoku to mój osobisty faworyt.",
     },
     mapsQuery: "Lounge Bar Čiovo Croatia",
   },

@@ -23,10 +23,10 @@ export const houseSections: HouseSection[] = [
     id: "hausordnung",
     title: { de: "Hausordnung", en: "House Rules", hr: "Kućni red", pl: "Regulamin domu" },
     intro: {
-      de: "Damit sich alle wohlfühlen, bitten wir um Einhaltung dieser einfachen Regeln.",
-      en: "So everyone feels at home, please keep these simple rules in mind.",
-      hr: "Kako bi se svi ugodno osjećali, molimo pridržavajte se ovih jednostavnih pravila.",
-      pl: "Aby wszyscy czuli się komfortowo, prosimy o przestrzeganie tych prostych zasad.",
+      de: "Damit du dich bei mir wohlfühlst, halte ich es einfach: hier meine paar Hausregeln.",
+      en: "So you feel right at home with me, I like to keep it simple: here are my few house rules.",
+      hr: "Kako bi se osjećao/la kao kod kuće, sve držim jednostavnim: evo mojih nekoliko kućnih pravila.",
+      pl: "Abyś czuł/a się u mnie jak w domu, staram się utrzymać wszystko w prostocie: oto moje kilka zasad domowych.",
     },
     facts: [
       {
@@ -81,10 +81,10 @@ export const houseSections: HouseSection[] = [
     id: "waesche",
     title: { de: "Wäsche waschen", en: "Doing Laundry", hr: "Pranje rublja", pl: "Pranie" },
     intro: {
-      de: "Die Waschmaschine steht im Waschraum/Bad und darf gerne genutzt werden.",
-      en: "The washing machine is in the laundry area/bathroom and is available for guest use.",
-      hr: "Perilica rublja nalazi se u praonici/kupaonici i slobodno je koristite.",
-      pl: "Pralka znajduje się w pralni/łazience i można z niej swobodnie korzystać.",
+      de: "Die Waschmaschine steht im Waschraum/Bad – nutz sie während deines Aufenthalts gerne.",
+      en: "The washing machine is in the laundry area/bathroom – feel free to use it during your stay.",
+      hr: "Perilica rublja nalazi se u praonici/kupaonici – slobodno je koristi tijekom boravka.",
+      pl: "Pralka znajduje się w pralni/łazience – śmiało korzystaj z niej podczas pobytu.",
     },
     bullets: [
       {
@@ -117,10 +117,10 @@ export const houseSections: HouseSection[] = [
     id: "grillen",
     title: { de: "Grillen", en: "BBQ / Grilling", hr: "Roštiljanje", pl: "Grillowanie" },
     intro: {
-      de: "Der Grill steht auf der Terrasse und darf während des Aufenthalts genutzt werden.",
-      en: "The grill is on the terrace and may be used during your stay.",
-      hr: "Roštilj se nalazi na terasi i može se koristiti tijekom boravka.",
-      pl: "Grill znajduje się na tarasie i można z niego korzystać podczas pobytu.",
+      de: "Den Grill auf der Terrasse darfst du während deines Aufenthalts gerne nutzen.",
+      en: "You're welcome to use the grill on the terrace during your stay.",
+      hr: "Roštilj na terasi slobodno možeš koristiti tijekom boravka.",
+      pl: "Grill na tarasie możesz swobodnie wykorzystywać podczas pobytu.",
     },
     bullets: [
       {
@@ -153,10 +153,10 @@ export const houseSections: HouseSection[] = [
     id: "aufenthaltsbereiche",
     title: { de: "Aufenthaltsbereiche", en: "Common Areas", hr: "Prostori za boravak", pl: "Strefy wypoczynku" },
     intro: {
-      de: "Diese Bereiche stehen euch während des Aufenthalts frei zur Verfügung.",
-      en: "These areas are all yours to relax in during your stay.",
-      hr: "Ovi prostori stoje vam na raspolaganju tijekom cijelog boravka.",
-      pl: "Te strefy są do Waszej dyspozycji przez cały pobyt.",
+      de: "Diese Bereiche gehören ganz dir während deines Aufenthalts – mach es dir gemütlich.",
+      en: "These areas are all yours during your stay – make yourself at home.",
+      hr: "Ovi prostori u potpunosti su tvoji tijekom boravka – uživaj.",
+      pl: "Te strefy są w pełni Twoje podczas pobytu – rozgość się.",
     },
     bullets: [
       {
@@ -217,10 +217,10 @@ export const houseSections: HouseSection[] = [
     id: "wissenswertes",
     title: { de: "Wissenswertes für Gäste", en: "Good to Know", hr: "Korisne informacije", pl: "Warto wiedzieć" },
     intro: {
-      de: "Ein paar praktische Infos, die im Ausland oft anders sind als zu Hause.",
-      en: "A few practical things that are often different abroad than at home.",
-      hr: "Nekoliko praktičnih informacija koje su u inozemstvu često drugačije nego kod kuće.",
-      pl: "Kilka praktycznych informacji, które za granicą często różnią się od tych w domu.",
+      de: "Ein paar praktische Dinge, die ich jedem meiner Gäste gerne mitgebe.",
+      en: "A few practical things I like to share with every one of my guests.",
+      hr: "Nekoliko praktičnih stvari koje rado podijelim sa svakim gostom.",
+      pl: "Kilka praktycznych rzeczy, którymi chętnie dzielę się z każdym moim gościem.",
     },
     facts: [
       {

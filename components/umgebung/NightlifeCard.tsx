@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { RouteButton } from "@/components/ui/RouteButton";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { PersonalNote } from "@/components/ui/PersonalNote";
 
 export function NightlifeCard({ spot }: { spot: NightlifeSpot }) {
   const { lang } = useLanguage();
@@ -16,7 +17,7 @@ export function NightlifeCard({ spot }: { spot: NightlifeSpot }) {
       media={
         <div className="group aspect-[4/3] overflow-hidden">
           <PhotoSlot
-            category="house"
+            category="nightlife"
             alt={spot.name}
             className="h-full w-full"
             zoomOnHover
@@ -30,6 +31,7 @@ export function NightlifeCard({ spot }: { spot: NightlifeSpot }) {
         <Badge tone="olive">{spot.type[lang]}</Badge>
       </div>
       <p className="flex-1 text-sm text-sea-900/70">{spot.description[lang]}</p>
+      {spot.personalNote && <PersonalNote text={spot.personalNote} />}
       <RouteButton mapsQuery={spot.mapsQuery} />
     </Card>
   );

@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { RouteButton } from "@/components/ui/RouteButton";
 import { PhotoSlot } from "@/components/ui/PhotoSlot";
+import { PersonalNote } from "@/components/ui/PersonalNote";
 
 export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   const { lang } = useLanguage();
@@ -31,6 +32,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
       </div>
       <p className="text-sm font-medium text-sea-900/50">{restaurant.cuisine[lang]}</p>
       <p className="flex-1 text-sm text-sea-900/70">{restaurant.description[lang]}</p>
+      {restaurant.personalNote && <PersonalNote text={restaurant.personalNote} />}
       <RouteButton mapsQuery={restaurant.mapsQuery} />
     </Card>
   );

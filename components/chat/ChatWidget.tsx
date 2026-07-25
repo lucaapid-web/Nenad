@@ -5,9 +5,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MessageCircle, X, Send } from "lucide-react";
 import { useLanguage } from "@/lib/language";
 import { ui } from "@/data/i18n/ui";
-import { chatbotQA, ChatEntry } from "@/data/chatbot-qa";
-import { matchEntry, getFeaturedEntries } from "@/lib/chat-matcher";
+import { chatbotQA, chatCategories, ChatEntry } from "@/data/chatbot-qa";
+import { matchEntry, getFeaturedEntries, getTopMatches } from "@/lib/chat-matcher";
 import { ChatBubble } from "@/components/chat/ChatBubble";
+import { TypingIndicator } from "@/components/chat/TypingIndicator";
 import { SuggestedQuestions } from "@/components/chat/SuggestedQuestions";
 
 interface Message {
@@ -29,9 +30,12 @@ export function ChatWidget() {
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
+  const [category, setCategory] = useState<string | null>(null);
+  const [didYouMean, setDidYouMean] = useState<ChatEntry[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const featured = getFeaturedEntries(chatbotQA);
+  const visibleSuggestions = category ? featured.filter((e) => e.category === category) : featured;
 
   useEffect(() => {
     if (open && messages.length === 0) {
@@ -46,6 +50,7 @@ export function ChatWidget() {
   function respond(userText: string, matched?: ChatEntry | null) {
     setTyping(true);
     setShowSuggestions(false);
+    setDidYouMean([]);
     const entry = matched !== undefined ? matched : matchEntry(userText, chatbotQA);
 
     window.setTimeout(() => {
@@ -53,6 +58,9 @@ export function ChatWidget() {
       setMessages((prev) => [...prev, { id: nextId(), from: "bot", text: answer }]);
       setTyping(false);
       setShowSuggestions(true);
+      if (!entry) {
+        setDidYouMean(getTopMatches(userText, chatbotQA, 3));
+      }
     }, 550);
   }
 
@@ -70,7 +78,7 @@ export function ChatWidget() {
   }
 
   return (
-    <>
+    <div className="print:hidden">
       <div className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center">
         {!open && (
           <motion.span
@@ -110,29 +118,64 @@ export function ChatWidget() {
             transition={{ duration: 0.2 }}
             className="fixed bottom-24 right-5 z-50 flex h-[min(32rem,70vh)] w-[min(22rem,90vw)] flex-col overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-2xl"
           >
-            <div className="bg-gradient-to-r from-sea-900 to-sea-500 px-4 py-3 text-white">
-              <p className="font-display font-semibold">{ui.chat.title[lang]}</p>
-              <p className="text-xs text-white/80">{ui.chat.subtitle[lang]}</p>
+            <div className="flex items-center gap-3 bg-gradient-to-r from-sea-900 to-sea-500 px-4 py-3 text-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 font-display text-sm font-semibold">
+                N
+              </div>
+              <div>
+                <p className="font-display font-semibold">{ui.chat.title[lang]}</p>
+                <p className="text-xs text-white/80">{ui.chat.subtitle[lang]}</p>
+              </div>
             </div>
 
-            <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-3 py-3">
+            <div
+              ref={scrollRef}
+              aria-live="polite"
+              className="min-h-[7rem] flex-1 space-y-3 overflow-y-auto px-3 py-3"
+            >
               {messages.map((m) => (
                 <ChatBubble key={m.id} text={m.text} from={m.from} />
               ))}
-              {typing && (
-                <div className="flex justify-start">
-                  <div className="rounded-2xl rounded-bl-sm bg-sand-100 px-4 py-2.5 text-sm text-sea-900/50">
-                    …
-                  </div>
+              {typing && <TypingIndicator />}
+
+              {didYouMean.length > 0 && !typing && (
+                <div className="flex flex-col items-start gap-1.5 pt-1">
+                  <p className="px-1 text-xs font-medium text-sea-900/50">{ui.chat.didYouMean[lang]}</p>
+                  <SuggestedQuestions entries={didYouMean} lang={lang} onPick={handlePick} />
                 </div>
               )}
             </div>
 
             {showSuggestions && !typing && (
-              <SuggestedQuestions entries={featured} lang={lang} onPick={handlePick} />
+              <div className="border-t border-sand-200 pt-2">
+                <div className="flex gap-1.5 overflow-x-auto px-3 pb-2">
+                  <button
+                    onClick={() => setCategory(null)}
+                    className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium transition ${
+                      category === null ? "bg-sea-700 text-white" : "bg-sand-100 text-sea-900/60 hover:bg-sand-200"
+                    }`}
+                  >
+                    {ui.chat.categories.alle[lang]}
+                  </button>
+                  {chatCategories.map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setCategory(c)}
+                      className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium transition ${
+                        category === c ? "bg-sea-700 text-white" : "bg-sand-100 text-sea-900/60 hover:bg-sand-200"
+                      }`}
+                    >
+                      {ui.chat.categories[c][lang]}
+                    </button>
+                  ))}
+                </div>
+                <div className="max-h-28 overflow-y-auto">
+                  <SuggestedQuestions entries={visibleSuggestions} lang={lang} onPick={handlePick} />
+                </div>
+              </div>
             )}
 
-            <p className="px-3 pb-1 text-[10px] text-sea-900/40">{ui.chat.disclaimer[lang]}</p>
+            <p className="px-3 pb-1 pt-1 text-[10px] text-sea-900/40">{ui.chat.disclaimer[lang]}</p>
 
             <form
               onSubmit={(e) => {
@@ -158,6 +201,6 @@ export function ChatWidget() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
