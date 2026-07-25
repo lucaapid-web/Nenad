@@ -48,6 +48,7 @@ export const ui = {
     gastgeber: { de: "Gastgeber", en: "Host", hr: "Domaćin", pl: "Gospodarz" },
     aboutHost: { de: "Über mich", en: "About me", hr: "O meni", pl: "O mnie" },
     nenadsTipp: { de: "Nenads Tipp", en: "Nenad's tip", hr: "Nenadov savjet", pl: "Wskazówka Nenada" },
+    photoComingSoon: { de: "Foto folgt", en: "Photo coming soon", hr: "Fotografija stiže", pl: "Zdjęcie wkrótce" },
     notFoundText: {
       de: "Diese Seite gibt es nicht – aber die Adria wartet trotzdem auf dich.",
       en: "This page doesn't exist – but the Adriatic is still waiting for you.",

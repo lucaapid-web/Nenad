@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 import { Image as ImageIcon } from "lucide-react";
+import { useLanguage } from "@/lib/language";
+import { ui } from "@/data/i18n/ui";
 
 type Category = "hero" | "house" | "beaches" | "restaurants" | "activities" | "nightlife" | "host";
 
@@ -34,6 +36,7 @@ export function PhotoSlot({
   zoomOnHover?: boolean;
   priority?: boolean;
 }) {
+  const { lang } = useLanguage();
   const [failed, setFailed] = useState(false);
 
   if (src && !failed) {
@@ -65,7 +68,12 @@ export function PhotoSlot({
         className
       )}
     >
-      {showIcon && <ImageIcon className="h-8 w-8 text-white/60" />}
+      {showIcon && (
+        <div className="flex flex-col items-center gap-1.5 text-white/70">
+          <ImageIcon className="h-7 w-7" />
+          <span className="text-[11px] font-medium tracking-wide">{ui.common.photoComingSoon[lang]}</span>
+        </div>
+      )}
     </div>
   );
 }

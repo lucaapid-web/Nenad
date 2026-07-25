@@ -81,7 +81,10 @@ export function UmgebungTeaser() {
       <StaggerList className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {teasers.map((t) => (
           <StaggerItem key={t.href}>
-            <Link href={t.href} className="group block overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+            <Link
+              href={t.href}
+              className="group block overflow-hidden rounded-2xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98]"
+            >
               <div className="overflow-hidden">
                 <PhotoSlot category={t.category} alt={t.text[lang]} className="h-32 w-full" zoomOnHover src={t.image} />
               </div>

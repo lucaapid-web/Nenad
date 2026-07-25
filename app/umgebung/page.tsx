@@ -78,7 +78,10 @@ export default function UmgebungPage() {
       <StaggerList className="grid gap-5 sm:grid-cols-2">
         {sections.map((s) => (
           <StaggerItem key={s.href}>
-            <Link href={s.href} className="group block overflow-hidden rounded-2xl border border-sand-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+            <Link
+              href={s.href}
+              className="group block overflow-hidden rounded-2xl bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover active:scale-[0.98]"
+            >
               <div className="overflow-hidden">
                 <PhotoSlot category={s.category} alt={ui.umgebungSub[s.key][lang]} className="h-40 w-full" zoomOnHover src={s.image} />
               </div>

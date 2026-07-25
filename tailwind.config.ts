@@ -54,6 +54,12 @@ const config: Config = {
           "50%": { transform: "translateY(-10px)" },
         },
       },
+      boxShadow: {
+        // Tinted with sea-900 instead of neutral black so elevation reads
+        // as part of the coastal palette rather than a generic UI shadow.
+        card: "0 1px 2px rgba(10, 53, 73, 0.06), 0 14px 28px -14px rgba(10, 53, 73, 0.22)",
+        "card-hover": "0 22px 44px -16px rgba(10, 53, 73, 0.32)",
+      },
     },
   },
   plugins: [],

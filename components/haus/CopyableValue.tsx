@@ -22,7 +22,7 @@ export function CopyableValue({ value }: { value: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="inline-flex items-center gap-1.5 rounded-full bg-sea-50 px-2.5 py-1 text-xs font-semibold text-sea-700 transition hover:bg-sea-100"
+      className="inline-flex items-center gap-1.5 rounded-full bg-sea-50 px-2.5 py-1 text-xs font-semibold text-sea-700 transition-all duration-200 hover:scale-[1.03] hover:bg-sea-100 active:scale-[0.97]"
     >
       {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
       {copied ? ui.common.copied[lang] : ui.common.copy[lang]}

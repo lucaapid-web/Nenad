@@ -39,6 +39,7 @@ export default function RootLayout({
     <html lang="de" className={`${fraunces.variable} ${inter.variable}`}>
       <body className="flex min-h-screen flex-col font-body">
         <LanguageProvider>
+          <div className="grain-overlay print:hidden" aria-hidden="true" />
           <ScrollProgress />
           <Header />
           <main className="flex-1">{children}</main>

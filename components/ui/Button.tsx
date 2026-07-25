@@ -11,8 +11,8 @@ interface BaseProps {
 }
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-terracotta-500 text-white hover:bg-terracotta-600 shadow-sm",
-  secondary: "bg-sea-700 text-white hover:bg-sea-900 shadow-sm",
+  primary: "bg-terracotta-500 text-white hover:bg-terracotta-600 shadow-card",
+  secondary: "bg-sea-700 text-white hover:bg-sea-900 shadow-card",
   ghost: "bg-white text-sea-700 border border-sea-100 hover:bg-sand-50",
 };
 
