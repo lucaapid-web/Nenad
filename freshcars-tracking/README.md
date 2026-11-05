@@ -13,6 +13,14 @@ npx expo start
 - **Handy:** App **Expo Go** installieren (iOS/Android) und den QR-Code im Terminal scannen. Handy und PC müssen im selben WLAN sein. Wenn das nicht klappt: `npx expo start --tunnel`.
 - **Browser:** im Terminal `w` drücken.
 
+## Web-Version mit festem Link (Netlify)
+
+```bash
+npm run export:web   # baut nach dist/ und benennt assets/node_modules um (sonst fehlen online die Icons)
+```
+
+Dann den Ordner `dist` auf https://app.netlify.com/drop ziehen (oder bei einer bestehenden Seite unter „Deploys“).
+
 ## Demo-Zugänge
 
 | Auftragsnr. | Kennzeichen | Fahrzeug | Status zu Beginn |
