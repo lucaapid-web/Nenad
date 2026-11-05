@@ -62,4 +62,4 @@ Werkstatt-/Prozesssoftware  →  Backend (z. B. Supabase)  →  App
        (API / Webhook / DB-Export / Tablet-Eingabe)        (Realtime + Push)
 ```
 
-Offene Punkte: welche Software steuert die Abläufe, Schnittstelle dazu, Push-Benachrichtigungen, DSGVO, Logo & Farben von Fresh Cars.
+Offene Punkte: welche Software steuert die Abläufe, Schnittstelle dazu, Push-Benachrichtigungen, DSGVO. Logo: assets/logo-*.png (aus dem Original-Logo, weiß freigestellt).

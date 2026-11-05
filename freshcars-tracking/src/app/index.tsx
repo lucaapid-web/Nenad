@@ -79,7 +79,7 @@ export default function LoginScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <FadeIn>
-            <Logo />
+            <Logo size={30} />
             <Text style={styles.tagline}>{company.tagline}</Text>
           </FadeIn>
 
