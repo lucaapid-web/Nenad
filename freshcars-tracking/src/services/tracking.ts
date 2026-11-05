@@ -16,6 +16,7 @@ import {
  */
 export interface TrackingService {
   login(orderNo: string, plate: string): Promise<Order | null>;
+  loginWithToken(token: string): Promise<Order | null>;
   subscribe(orderId: string, onUpdate: (order: Order) => void): () => void;
 }
 
@@ -45,6 +46,7 @@ class DemoTrackingService implements TrackingService {
   private speed: DemoSpeed = 'live';
   private speedListeners = new Set<(s: DemoSpeed) => void>();
   private timer: ReturnType<typeof setInterval> | null = null;
+  private boardListeners = new Set<(orders: Order[]) => void>();
 
   constructor() {
     this.reset();
@@ -65,6 +67,7 @@ class DemoTrackingService implements TrackingService {
       key: s.key,
       status: 'pending',
       note: seed.notes?.[s.key],
+      photos: [],
     }));
 
     // Zeitstempel rückwärts vom aktuellen Schritt aus berechnen.
@@ -96,10 +99,11 @@ class DemoTrackingService implements TrackingService {
       id: seed.id,
       orderNo: seed.orderNo,
       plate: seed.plate,
+      token: seed.token,
       customerName: seed.customerName,
       vehicle: seed.vehicle,
       job: seed.job,
-      stages: sim.stages.map((s) => ({ ...s })),
+      stages: sim.stages.map((s) => ({ ...s, photos: [...s.photos] })),
       currentIndex,
       currentProgress,
       totalProgress: isReady ? 1 : doneMinutes / TOTAL_PLANNED_MINUTES,
@@ -116,32 +120,39 @@ class DemoTrackingService implements TrackingService {
     for (const sim of this.orders.values()) {
       if (sim.currentIndex === LAST) continue;
       sim.currentProgress += delta / STAGES[sim.currentIndex].plannedMinutes;
-      if (sim.currentProgress >= 1) {
-        const i = sim.currentIndex;
-        sim.stages[i] = { ...sim.stages[i], status: 'done', completedAt: this.now };
-        sim.currentIndex = i + 1;
-        sim.currentProgress = 0;
-        const next = sim.stages[i + 1];
-        sim.stages[i + 1] = {
-          ...next,
-          status: i + 1 === LAST ? 'done' : 'active',
-          startedAt: this.now,
-          completedAt: i + 1 === LAST ? this.now : undefined,
-        };
-      }
+      if (sim.currentProgress >= 1) this.advanceSim(sim);
     }
     this.emitAll();
   };
+
+  private advanceSim(sim: SimOrder) {
+    const i = sim.currentIndex;
+    if (i === LAST) return;
+    sim.stages[i] = { ...sim.stages[i], status: 'done', completedAt: this.now };
+    sim.currentIndex = i + 1;
+    sim.currentProgress = 0;
+    sim.stages[i + 1] = {
+      ...sim.stages[i + 1],
+      status: i + 1 === LAST ? 'done' : 'active',
+      startedAt: this.now,
+      completedAt: i + 1 === LAST ? this.now : undefined,
+    };
+  }
 
   private emitAll() {
     for (const [id, set] of this.listeners) {
       const sim = this.orders.get(id);
       if (sim) set.forEach((cb) => cb(this.snapshot(sim)));
     }
+    if (this.boardListeners.size) {
+      const all = this.allOrders();
+      this.boardListeners.forEach((cb) => cb(all));
+    }
   }
 
   private ensureTimer() {
-    const active = [...this.listeners.values()].some((s) => s.size > 0);
+    const active =
+      this.boardListeners.size > 0 || [...this.listeners.values()].some((s) => s.size > 0);
     if (active && !this.timer) this.timer = setInterval(this.tick, 1000);
     if (!active && this.timer) {
       clearInterval(this.timer);
@@ -161,6 +172,14 @@ class DemoTrackingService implements TrackingService {
     return null;
   }
 
+  async loginWithToken(token: string) {
+    await new Promise((r) => setTimeout(r, 500));
+    for (const sim of this.orders.values()) {
+      if (sim.seed.token === token) return this.snapshot(sim);
+    }
+    return null;
+  }
+
   subscribe(orderId: string, onUpdate: (o: Order) => void) {
     if (!this.listeners.has(orderId)) this.listeners.set(orderId, new Set());
     this.listeners.get(orderId)!.add(onUpdate);
@@ -171,6 +190,35 @@ class DemoTrackingService implements TrackingService {
       this.listeners.get(orderId)?.delete(onUpdate);
       this.ensureTimer();
     };
+  }
+
+  // --- Werkstatt-Modus (im Livebetrieb: eigene Mitarbeiter-App / Tablet) ---
+  allOrders = () => [...this.orders.values()].map((s) => this.snapshot(s));
+
+  subscribeBoard(cb: (orders: Order[]) => void) {
+    this.boardListeners.add(cb);
+    cb(this.allOrders());
+    this.ensureTimer();
+    return () => {
+      this.boardListeners.delete(cb);
+      this.ensureTimer();
+    };
+  }
+
+  /** Mitarbeiter schließt den aktuellen Schritt ab. */
+  advance(orderId: string) {
+    const sim = this.orders.get(orderId);
+    if (sim) this.advanceSim(sim);
+    this.emitAll();
+  }
+
+  /** Mitarbeiter hängt ein Foto an den aktuellen Schritt. */
+  addPhoto(orderId: string, uri: string) {
+    const sim = this.orders.get(orderId);
+    if (!sim) return;
+    const st = sim.stages[sim.currentIndex];
+    sim.stages[sim.currentIndex] = { ...st, photos: [...st.photos, uri] };
+    this.emitAll();
   }
 
   // --- Demo-Steuerung ---

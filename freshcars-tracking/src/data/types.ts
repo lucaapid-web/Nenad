@@ -25,6 +25,8 @@ export interface OrderStage {
   completedAt?: Date;
   /** Kurze Notiz aus der Werkstatt, optional. */
   note?: string;
+  /** Echte Fotos, die die Werkstatt zu diesem Schritt hochgeladen hat. */
+  photos: string[];
 }
 
 export interface Vehicle {
@@ -38,6 +40,8 @@ export interface Order {
   id: string;
   orderNo: string;
   plate: string;
+  /** Geheimer Link-Code: Kunde öffnet den Status ohne Login. */
+  token: string;
   customerName: string;
   vehicle: Vehicle;
   job: string;

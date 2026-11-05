@@ -3,10 +3,14 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Linking, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as ExpoLinking from 'expo-linking';
+import { Linking, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BeforeAfter } from '../components/BeforeAfter';
 import { Logo, Plate } from '../components/Brand';
 import { FadeIn, PressableScale, PulseDot } from '../components/motion';
+import { PhotoStrip } from '../components/PhotoStrip';
+import { PickupSheet } from '../components/PickupSheet';
 import { ProgressRing } from '../components/ProgressRing';
 import { Timeline } from '../components/Timeline';
 import { Toast, ToastMessage } from '../components/Toast';
@@ -15,6 +19,7 @@ import { STAGES } from '../data/stages';
 import { Order } from '../data/types';
 import { formatDayTime } from '../lib/format';
 import { useSession } from '../lib/session';
+import { requestService } from '../services/requests';
 import { demoService, DemoSpeed, IS_DEMO, trackingService } from '../services/tracking';
 import { colors, radius } from '../theme';
 
@@ -25,6 +30,9 @@ export default function StatusScreen() {
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const [speed, setSpeed] = useState<DemoSpeed>(demoService.getSpeed());
   const lastIndex = useRef<number | null>(null);
+  const lastPhotos = useRef<number | null>(null);
+  const [sheet, setSheet] = useState(false);
+  const [pickup, setPickup] = useState<Date | undefined>(orderId ? requestService.getPickup(orderId) : undefined);
 
   useEffect(() => {
     if (!orderId) return;
@@ -42,6 +50,16 @@ export default function StatusScreen() {
         });
         if (Platform.OS !== 'web') Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       }
+      const photoCount = o.stages.reduce((n, s) => n + s.photos.length, 0);
+      if (lastPhotos.current !== null && photoCount > lastPhotos.current) {
+        setToast({
+          id: Date.now(),
+          icon: 'camera',
+          title: 'Neues Foto aus der Werkstatt',
+          text: `${STAGES[o.currentIndex].title} – jetzt ansehen.`,
+        });
+      }
+      lastPhotos.current = photoCount;
       lastIndex.current = o.currentIndex;
       setOrder(o);
     });
@@ -72,6 +90,20 @@ export default function StatusScreen() {
         {/* Kopfzeile */}
         <FadeIn style={styles.topBar}>
           <Logo size={17} />
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+          <Pressable
+            hitSlop={12}
+            style={styles.iconButton}
+            onPress={() => {
+              const url = ExpoLinking.createURL(`/t/${order.token}`);
+              Share.share({
+                message: `Live-Status meines ${order.vehicle.make} bei Fresh Cars: ${url}`,
+                url,
+              }).catch(() => {});
+            }}
+          >
+            <MaterialCommunityIcons name="share-variant" size={19} color={colors.textDim} />
+          </Pressable>
           <Pressable
             hitSlop={12}
             onPress={() => {
@@ -82,6 +114,7 @@ export default function StatusScreen() {
           >
             <MaterialCommunityIcons name="logout" size={20} color={colors.textDim} />
           </Pressable>
+          </View>
         </FadeIn>
 
         {/* Fahrzeug */}
@@ -115,27 +148,54 @@ export default function StatusScreen() {
 
         {/* Abholung */}
         <FadeIn delay={220}>
-          <View style={[styles.etaCard, order.isReady && styles.etaReady]}>
+          <PressableScale
+            disabled={!order.isReady}
+            onPress={() => setSheet(true)}
+            style={[styles.etaCard, order.isReady && styles.etaReady]}
+          >
             <View style={[styles.etaIcon, order.isReady && { backgroundColor: colors.accent }]}>
               <MaterialCommunityIcons
-                name={order.isReady ? 'car-key' : 'clock-outline'}
+                name={!order.isReady ? 'clock-outline' : pickup ? 'calendar-check' : 'car-key'}
                 size={22}
                 color={order.isReady ? colors.bg : colors.accent}
               />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.etaLabel}>
-                {order.isReady ? 'Abholung möglich' : 'Voraussichtlich abholbereit'}
+                {!order.isReady
+                  ? 'Voraussichtlich abholbereit'
+                  : pickup
+                    ? 'Ihre Abholung'
+                    : 'Ihr Auto ist fertig'}
               </Text>
               <Text style={styles.etaValue}>
-                {order.isReady ? company.openingHours : `${formatDayTime(order.estimatedReadyAt, now)} Uhr`}
+                {!order.isReady
+                  ? `${formatDayTime(order.estimatedReadyAt, now)} Uhr`
+                  : pickup
+                    ? `${formatDayTime(pickup, new Date())} Uhr`
+                    : 'Abholzeit wählen'}
               </Text>
             </View>
-          </View>
+            {order.isReady && (
+              <MaterialCommunityIcons name={pickup ? 'pencil-outline' : 'chevron-right'} size={22} color={colors.accent} />
+            )}
+          </PressableScale>
+        </FadeIn>
+
+        {order.isReady && (
+          <FadeIn delay={250}>
+            <Text style={styles.section}>Vorher · Nachher</Text>
+            <BeforeAfter color={order.vehicle.colorHex} />
+          </FadeIn>
+        )}
+
+        <FadeIn delay={260}>
+          <Text style={styles.section}>Aus der Werkstatt</Text>
+          <PhotoStrip order={order} />
         </FadeIn>
 
         {/* Ablauf */}
-        <FadeIn delay={260}>
+        <FadeIn delay={300}>
           <Text style={styles.section}>Ablauf</Text>
         </FadeIn>
         <Timeline order={order} now={now} />
@@ -185,6 +245,17 @@ export default function StatusScreen() {
           </FadeIn>
         )}
       </ScrollView>
+
+      <PickupSheet
+        orderId={order.id}
+        visible={sheet}
+        onClose={() => setSheet(false)}
+        onBooked={(d) => {
+          setPickup(d);
+          setSheet(false);
+          setToast({ id: Date.now(), icon: 'calendar-check', title: 'Abholung bestätigt', text: `${formatDayTime(d, new Date())} Uhr – wir freuen uns auf Sie.` });
+        }}
+      />
     </View>
   );
 }

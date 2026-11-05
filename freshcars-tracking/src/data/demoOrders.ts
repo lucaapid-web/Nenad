@@ -4,6 +4,7 @@ export interface DemoOrderSeed {
   id: string;
   orderNo: string;
   plate: string;
+  token: string;
   customerName: string;
   vehicle: Vehicle;
   job: string;
@@ -17,6 +18,7 @@ export interface DemoOrderSeed {
 export const DEMO_ORDERS: DemoOrderSeed[] = [
   {
     id: 'o1',
+    token: 'bmw7k2',
     orderNo: 'FC-24017',
     plate: 'HER-FC 217',
     customerName: 'Herr Schneider',
@@ -28,6 +30,7 @@ export const DEMO_ORDERS: DemoOrderSeed[] = [
   },
   {
     id: 'o2',
+    token: 'audi4x9',
     orderNo: 'FC-24018',
     plate: 'HER-AE 552',
     customerName: 'Frau Yilmaz',
@@ -38,6 +41,7 @@ export const DEMO_ORDERS: DemoOrderSeed[] = [
   },
   {
     id: 'o3',
+    token: 'golf8m3',
     orderNo: 'FC-24019',
     plate: 'BO-MK 834',
     customerName: 'Herr Kowalski',
@@ -48,6 +52,7 @@ export const DEMO_ORDERS: DemoOrderSeed[] = [
   },
   {
     id: 'o4',
+    token: 'benz2q5',
     orderNo: 'FC-24020',
     plate: 'HER-LS 77',
     customerName: 'Frau Lehmann',
@@ -58,6 +63,7 @@ export const DEMO_ORDERS: DemoOrderSeed[] = [
   },
   {
     id: 'o5',
+    token: 'tesla3r8',
     orderNo: 'FC-24021',
     plate: 'GE-TR 4410',
     customerName: 'Herr Tran',

@@ -143,8 +143,25 @@ export default function LoginScreen() {
             </PressableScale>
           </FadeIn>
 
+          <FadeIn delay={430} style={styles.tiles}>
+            <PressableScale containerStyle={{ flex: 1 }} style={styles.tile} onPress={() => router.push('/schaden')}>
+              <View style={styles.tileIcon}>
+                <MaterialCommunityIcons name="camera-outline" size={22} color={colors.accent} />
+              </View>
+              <Text style={styles.tileTitle}>Schaden melden</Text>
+              <Text style={styles.tileSub}>Foto machen, absenden</Text>
+            </PressableScale>
+            <PressableScale containerStyle={{ flex: 1 }} style={styles.tile} onPress={() => router.push('/termin')}>
+              <View style={styles.tileIcon}>
+                <MaterialCommunityIcons name="calendar-clock" size={22} color={colors.accent} />
+              </View>
+              <Text style={styles.tileTitle}>Termin buchen</Text>
+              <Text style={styles.tileSub}>Freie Zeiten sehen</Text>
+            </PressableScale>
+          </FadeIn>
+
           {IS_DEMO && (
-            <FadeIn delay={480} style={styles.demo}>
+            <FadeIn delay={520} style={styles.demo}>
               <Text style={styles.demoLabel}>DEMO-FAHRZEUGE · ANTIPPEN</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
                 {DEMO_ORDERS.map((o) => (
@@ -164,6 +181,11 @@ export default function LoginScreen() {
                   </Pressable>
                 ))}
               </ScrollView>
+              <Pressable style={styles.staff} onPress={() => router.push('/werkstatt')}>
+                <MaterialCommunityIcons name="account-hard-hat-outline" size={16} color={colors.textDim} />
+                <Text style={styles.staffText}>Werkstatt-Modus für Mitarbeiter</Text>
+                <MaterialCommunityIcons name="chevron-right" size={16} color={colors.textDim} />
+              </Pressable>
             </FadeIn>
           )}
         </ScrollView>
@@ -177,7 +199,7 @@ const styles = StyleSheet.create({
   glow: { position: 'absolute', top: -80, left: -60, right: -60, height: 460, borderRadius: 300 },
   content: { paddingHorizontal: 24, flexGrow: 1, maxWidth: 520, width: '100%', alignSelf: 'center' },
   tagline: { color: colors.textDim, fontSize: 12, marginTop: 4, letterSpacing: 1.2, fontWeight: '600' },
-  hero: { marginTop: 56, marginBottom: 36 },
+  hero: { marginTop: 44, marginBottom: 30 },
   h1: { color: colors.text, fontSize: 44, lineHeight: 48, fontWeight: '900', letterSpacing: -1.5 },
   sub: { color: colors.textDim, fontSize: 16, lineHeight: 23, marginTop: 14 },
   label: { color: colors.textDim, fontSize: 13, fontWeight: '700', marginBottom: 8, marginLeft: 4 },
@@ -220,7 +242,28 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   buttonText: { color: colors.bg, fontSize: 17, fontWeight: '800' },
-  demo: { marginTop: 'auto', paddingTop: 40 },
+  tiles: { flexDirection: 'row', gap: 12, marginTop: 14 },
+  tile: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 16,
+  },
+  tileIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: colors.accentSoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  tileTitle: { color: colors.text, fontSize: 15, fontWeight: '800' },
+  tileSub: { color: colors.textDim, fontSize: 12.5, marginTop: 3 },
+  staff: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 18, alignSelf: 'flex-start' },
+  staffText: { color: colors.textDim, fontSize: 13, fontWeight: '600' },
+  demo: { marginTop: 'auto', paddingTop: 36 },
   demoLabel: { color: colors.textFaint, fontSize: 11, fontWeight: '800', letterSpacing: 1.5, marginBottom: 12 },
   chip: {
     backgroundColor: colors.surface,

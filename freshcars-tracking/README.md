@@ -24,6 +24,20 @@ npx expo start
 | FC-24021 | GE-TR 4410 | Tesla Model 3 | Karosseriebau |
 
 Die Demo-Fahrzeuge lassen sich auf dem Login-Screen auch direkt antippen.
+
+**Link statt Login:** `/t/<code>` öffnet den Status direkt, z. B. `/t/bmw7k2`, `/t/golf8m3` (abholbereit).
+Im Status-Screen erzeugt der Teilen-Button diesen Link für SMS/WhatsApp.
+
+## Funktionen
+
+- **Live-Status** mit Fortschrittsring, Abholprognose (Werkstattzeiten), Ablauf, Benachrichtigungen
+- **Aus der Werkstatt:** Bilder zu jedem Schritt (Beispielbilder, echte Fotos sobald hochgeladen)
+- **Vorher/Nachher-Slider** sobald das Auto fertig ist
+- **Abholzeit wählen** per Bottom-Sheet
+- **Schaden melden:** Fotos (Kamera/Galerie), Bereich, Beschreibung, Kontakt → an Fresh Cars
+- **Termin buchen:** Anliegen, Tag + freie Uhrzeit, Kontakt
+- **Werkstatt-Modus** (Startseite → „Werkstatt-Modus für Mitarbeiter“): alle Autos auf einem Board,
+  „Fertig“ schließt den Schritt ab, Kamera hängt ein Foto an – die Kundenansicht ist sofort aktuell.
 Unten im Status-Screen schaltet **Zeitraffer** die simulierte Werkstatt-Zeit schneller (1 s = 20 min), **↻** setzt alles zurück.
 
 ## Aufbau
@@ -35,7 +49,7 @@ src/
   config/         Firmendaten (Telefon, Adresse, Öffnungszeiten) – vor Livegang prüfen
   data/           Prozessschritte + Demo-Aufträge
   lib/            Arbeitszeit-Rechnung (Mo–Fr 8–17 Uhr), Formatierung, Session
-  services/       tracking.ts – EINZIGE Stelle, die für das echte System getauscht wird
+  services/       tracking.ts + requests.ts – die Stellen, die für das echte System getauscht werden
 ```
 
 ## Anbindung an das echte Werkstattsystem (Phase 2)

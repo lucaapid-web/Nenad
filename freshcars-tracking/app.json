@@ -21,10 +21,28 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "output": "single",
-      "bundler": "metro"
+      "bundler": "metro",
+      "name": "Fresh Cars",
+      "backgroundColor": "#0A0C0F"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Fresh Cars benötigt Zugriff auf Ihre Fotos, um Schadensbilder zu senden.",
+          "cameraPermission": "Fresh Cars benötigt die Kamera, um Schäden zu fotografieren."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0A0C0F"
+        }
+      ]
     ],
     "scheme": "freshcars",
     "backgroundColor": "#0A0C0F"
