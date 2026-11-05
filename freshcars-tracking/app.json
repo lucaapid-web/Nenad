@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Fresh Cars",
+    "slug": "freshcars-tracking",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0A0C0F",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single",
+      "bundler": "metro",
+      "name": "Fresh Cars",
+      "backgroundColor": "#0A0C0F"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Fresh Cars benötigt Zugriff auf Ihre Fotos, um Schadensbilder zu senden.",
+          "cameraPermission": "Fresh Cars benötigt die Kamera, um Schäden zu fotografieren."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0A0C0F"
+        }
+      ]
+    ],
+    "scheme": "freshcars",
+    "backgroundColor": "#0A0C0F"
+  }
+}
