@@ -1,11 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { STAGE_PHOTOS } from '../data/stagePhotos';
 import { STAGES } from '../data/stages';
 import { Order } from '../data/types';
 import { formatDayTime, formatTime } from '../lib/format';
 import { colors, radius } from '../theme';
 import { FadeIn, PulseDot } from './motion';
+import { StagePhoto } from './PhotoStrip';
 
 function ActiveBar({ progress }: { progress: number }) {
   const v = useRef(new Animated.Value(0)).current;
@@ -30,6 +32,9 @@ function ActiveBar({ progress }: { progress: number }) {
 }
 
 export function Timeline({ order, now }: { order: Order; now: Date }) {
+  const { width } = useWindowDimensions();
+  // Inhaltsbreite minus Rail, Abstand und Karten-Padding
+  const photoW = Math.min(width, 560) - 44 - 24 - 14 - 30;
   return (
     <View>
       {order.stages.map((stage, i) => {
@@ -85,6 +90,16 @@ export function Timeline({ order, now }: { order: Order; now: Date }) {
                 </View>
                 {active && (
                   <>
+                    <View style={styles.photo}>
+                      <StagePhoto
+                        id={`a-${stage.key}`}
+                        uri={stage.photos[stage.photos.length - 1] ?? STAGE_PHOTOS[stage.key]}
+                        stage={stage.key}
+                        color={order.vehicle.colorHex}
+                        width={photoW}
+                        height={photoW * 0.56}
+                      />
+                    </View>
                     <Text style={styles.desc}>{stage.note ?? def.description}</Text>
                     <ActiveBar progress={order.currentProgress} />
                   </>
@@ -130,6 +145,7 @@ const styles = StyleSheet.create({
   title: { flex: 1, color: colors.textFaint, fontSize: 15, fontWeight: '600' },
   time: { color: colors.textDim, fontSize: 12, fontWeight: '500' },
   desc: { color: colors.textDim, fontSize: 13.5, lineHeight: 19, marginTop: 8 },
+  photo: { borderRadius: 12, overflow: 'hidden', marginTop: 12 },
   barTrack: {
     height: 6,
     backgroundColor: colors.border,

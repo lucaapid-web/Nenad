@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import * as ExpoLinking from 'expo-linking';
 import { Linking, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BeforeAfter } from '../components/BeforeAfter';
 import { Logo, Plate } from '../components/Brand';
 import { FadeIn, PressableScale, PulseDot } from '../components/motion';
 import { PhotoStrip } from '../components/PhotoStrip';
@@ -181,13 +180,6 @@ export default function StatusScreen() {
             )}
           </PressableScale>
         </FadeIn>
-
-        {order.isReady && (
-          <FadeIn delay={250}>
-            <Text style={styles.section}>Vorher · Nachher</Text>
-            <BeforeAfter color={order.vehicle.colorHex} />
-          </FadeIn>
-        )}
 
         <FadeIn delay={260}>
           <Text style={styles.section}>Aus der Werkstatt</Text>

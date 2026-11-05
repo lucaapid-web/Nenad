@@ -4,8 +4,6 @@ import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { colors, nativeDriver } from '../theme';
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
 export function ProgressRing({
   progress,
   size = 230,
@@ -23,6 +21,7 @@ export function ProgressRing({
   const c = 2 * Math.PI * r;
   const v = useRef(new Animated.Value(0)).current;
   const pop = useRef(new Animated.Value(done ? 1 : 0)).current;
+  // Fortschritt als State statt Animated-SVG: vermeidet die `collapsable`-Warnung im Web.
   const [shown, setShown] = useState(0);
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export function ProgressRing({
   }, [progress, v]);
 
   useEffect(() => {
-    const id = v.addListener(({ value }) => setShown(Math.round(value * 100)));
+    const id = v.addListener(({ value }) => setShown(value));
     return () => v.removeListener(id);
   }, [v]);
 
@@ -58,7 +57,7 @@ export function ProgressRing({
           </LinearGradient>
         </Defs>
         <Circle cx={size / 2} cy={size / 2} r={r} stroke={colors.surfaceHigh} strokeWidth={stroke} fill="none" />
-        <AnimatedCircle
+        <Circle
           cx={size / 2}
           cy={size / 2}
           r={r}
@@ -67,7 +66,7 @@ export function ProgressRing({
           strokeLinecap="round"
           fill="none"
           strokeDasharray={`${c} ${c}`}
-          strokeDashoffset={v.interpolate({ inputRange: [0, 1], outputRange: [c, 0] })}
+          strokeDashoffset={c * (1 - shown)}
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
       </Svg>
@@ -83,7 +82,7 @@ export function ProgressRing({
           ) : (
             <>
               <Text style={styles.value}>
-                {shown}
+                {Math.round(shown * 100)}
                 <Text style={styles.percent}>%</Text>
               </Text>
               <Text style={styles.caption}>{caption}</Text>

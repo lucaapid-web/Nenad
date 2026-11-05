@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { STAGE_PHOTOS } from '../data/stagePhotos';
 import { STAGES } from '../data/stages';
 import { Order, StageKey } from '../data/types';
 import { colors, radius } from '../theme';
@@ -11,7 +12,40 @@ interface Shot {
   key: string;
   stage: StageKey;
   title: string;
-  uri?: string; // echtes Foto aus der Werkstatt
+  uri?: string;
+  /** true = vom Mitarbeiter hochgeladenes Foto, false = Beispielfoto */
+  real: boolean;
+}
+
+const TW = 200;
+const TH = 134;
+
+/** Foto mit Fallback auf die Illustration, falls es nicht lädt. */
+export function StagePhoto({
+  uri,
+  stage,
+  color,
+  width,
+  height,
+  id,
+}: {
+  uri?: string;
+  stage: StageKey;
+  color: string;
+  width: number;
+  height: number;
+  id: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (!uri || failed) return <CarArt id={id} color={color} variant={stage} width={width} height={height} />;
+  return (
+    <Image
+      source={{ uri }}
+      style={{ width, height, backgroundColor: colors.surfaceHigh }}
+      resizeMode="cover"
+      onError={() => setFailed(true)}
+    />
+  );
 }
 
 /** „Aus der Werkstatt“: Bilder zu allen erledigten und dem laufenden Schritt. */
@@ -23,8 +57,8 @@ export function PhotoStrip({ order }: { order: Order }) {
   order.stages.forEach((s, i) => {
     if (s.status === 'pending' || s.key === 'ready') return;
     const title = STAGES[i].title;
-    if (s.photos.length) s.photos.forEach((uri, j) => shots.push({ key: `${s.key}-${j}`, stage: s.key, title, uri }));
-    else shots.push({ key: s.key, stage: s.key, title });
+    s.photos.forEach((uri, j) => shots.push({ key: `${s.key}-${j}`, stage: s.key, title, uri, real: true }));
+    if (!s.photos.length) shots.push({ key: s.key, stage: s.key, title, uri: STAGE_PHOTOS[s.key], real: false });
   });
   shots.reverse(); // neueste zuerst
 
@@ -35,14 +69,10 @@ export function PhotoStrip({ order }: { order: Order }) {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
         {shots.map((s) => (
           <PressableScale key={s.key} onPress={() => setOpen(s)} style={styles.thumb}>
-            {s.uri ? (
-              <Image source={{ uri: s.uri }} style={{ width: 150, height: 100 }} />
-            ) : (
-              <CarArt id={`t-${s.key}`} color={order.vehicle.colorHex} variant={s.stage} width={150} height={100} />
-            )}
+            <StagePhoto id={`t-${s.key}`} uri={s.uri} stage={s.stage} color={order.vehicle.colorHex} width={TW} height={TH} />
             <View style={styles.caption}>
               <Text style={styles.captionText}>{s.title}</Text>
-              {s.uri && <MaterialCommunityIcons name="camera" size={11} color={colors.accent} />}
+              {s.real && <MaterialCommunityIcons name="camera" size={12} color={colors.accent} />}
             </View>
           </PressableScale>
         ))}
@@ -53,15 +83,18 @@ export function PhotoStrip({ order }: { order: Order }) {
           {open && (
             <View style={{ width: big }}>
               <View style={styles.bigWrap}>
-                {open.uri ? (
-                  <Image source={{ uri: open.uri }} style={{ width: big, height: big * 0.66 }} resizeMode="cover" />
-                ) : (
-                  <CarArt id={`b-${open.key}`} color={order.vehicle.colorHex} variant={open.stage} width={big} height={big * 0.5} />
-                )}
+                <StagePhoto
+                  id={`b-${open.key}`}
+                  uri={open.uri}
+                  stage={open.stage}
+                  color={order.vehicle.colorHex}
+                  width={big}
+                  height={big * 0.667}
+                />
               </View>
               <Text style={styles.bigTitle}>{open.title}</Text>
               <Text style={styles.bigSub}>
-                {open.uri ? 'Foto aus der Werkstatt' : 'Beispielbild · im Livebetrieb echte Werkstattfotos'}
+                {open.real ? 'Foto aus der Werkstatt' : 'Beispielfoto · im Livebetrieb echte Fotos Ihres Fahrzeugs'}
               </Text>
             </View>
           )}
@@ -73,7 +106,7 @@ export function PhotoStrip({ order }: { order: Order }) {
 
 const styles = StyleSheet.create({
   thumb: {
-    width: 150,
+    width: TW,
     borderRadius: radius.md,
     overflow: 'hidden',
     backgroundColor: colors.surface,
