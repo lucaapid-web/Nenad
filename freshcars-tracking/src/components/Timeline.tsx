@@ -5,7 +5,8 @@ import { STAGE_PHOTOS } from '../data/stagePhotos';
 import { STAGES } from '../data/stages';
 import { Order } from '../data/types';
 import { formatDayTime, formatTime } from '../lib/format';
-import { colors, radius } from '../theme';
+import { colors, nativeDriver, radius } from '../theme';
+import { KenBurns, Shimmer } from './fx';
 import { FadeIn, PulseDot } from './motion';
 import { StagePhoto } from './PhotoStrip';
 
@@ -26,8 +27,44 @@ function ActiveBar({ progress }: { progress: number }) {
           styles.barFill,
           { width: v.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) },
         ]}
+      >
+        <Shimmer radius={3} />
+      </Animated.View>
+    </View>
+  );
+}
+
+/** Verbindungslinie, die sich beim Erscheinen von oben nach unten füllt. */
+function RailLine({ filled, delay }: { filled: boolean; delay: number }) {
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(v, {
+      toValue: filled ? 1 : 0,
+      duration: 420,
+      delay,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: false,
+    }).start();
+  }, [filled, delay, v]);
+  return (
+    <View style={styles.line}>
+      <Animated.View
+        style={[styles.lineFill, { height: v.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]}
       />
     </View>
+  );
+}
+
+/** Haken, der mit einem kleinen Federeffekt erscheint. */
+function PopCheck({ delay }: { delay: number }) {
+  const v = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.spring(v, { toValue: 1, delay, useNativeDriver: nativeDriver, bounciness: 16, speed: 10 }).start();
+  }, [v, delay]);
+  return (
+    <Animated.View style={{ transform: [{ scale: v }] }}>
+      <MaterialCommunityIcons name="check" size={14} color={colors.bg} />
+    </Animated.View>
   );
 }
 
@@ -56,12 +93,12 @@ export function Timeline({ order, now }: { order: Order; now: Date }) {
                   ]}
                 >
                   {done ? (
-                    <MaterialCommunityIcons name="check" size={14} color={colors.bg} />
+                    <PopCheck delay={350 + i * 120} />
                   ) : active ? (
                     <PulseDot size={8} />
                   ) : null}
                 </View>
-                {!isLast && <View style={[styles.line, lineDone && styles.lineDone]} />}
+                {!isLast && <RailLine filled={lineDone} delay={400 + i * 120} />}
               </View>
 
               <View style={[styles.body, active && styles.bodyActive]}>
@@ -91,6 +128,7 @@ export function Timeline({ order, now }: { order: Order; now: Date }) {
                 {active && (
                   <>
                     <View style={styles.photo}>
+                      <KenBurns>
                       <StagePhoto
                         id={`a-${stage.key}`}
                         uri={stage.photos[stage.photos.length - 1] ?? STAGE_PHOTOS[stage.key]}
@@ -99,6 +137,7 @@ export function Timeline({ order, now }: { order: Order; now: Date }) {
                         width={photoW}
                         height={photoW * 0.56}
                       />
+                      </KenBurns>
                     </View>
                     <Text style={styles.desc}>{stage.note ?? def.description}</Text>
                     <ActiveBar progress={order.currentProgress} />
@@ -130,7 +169,7 @@ const styles = StyleSheet.create({
   nodeDone: { backgroundColor: colors.accent, borderColor: colors.accent },
   nodeActive: { borderColor: colors.accent, backgroundColor: colors.accentSoft },
   line: { flex: 1, width: 2, backgroundColor: colors.border, marginVertical: 2, minHeight: 14 },
-  lineDone: { backgroundColor: colors.accent },
+  lineFill: { width: 2, backgroundColor: colors.accent },
   body: { flex: 1, paddingBottom: 18, paddingTop: 2 },
   bodyActive: {
     backgroundColor: colors.surfaceHigh,
@@ -153,5 +192,5 @@ const styles = StyleSheet.create({
     marginTop: 12,
     overflow: 'hidden',
   },
-  barFill: { height: 6, borderRadius: 3, backgroundColor: colors.accent },
+  barFill: { height: 6, borderRadius: 3, backgroundColor: colors.accent, overflow: 'hidden' },
 });

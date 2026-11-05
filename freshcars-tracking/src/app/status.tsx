@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import * as ExpoLinking from 'expo-linking';
-import { Linking, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
+import { BlurView } from 'expo-blur';
+import { Animated, Linking, Platform, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Logo, Plate } from '../components/Brand';
+import { AmbientGlow } from '../components/fx';
 import { FadeIn, PressableScale, PulseDot } from '../components/motion';
 import { PhotoStrip } from '../components/PhotoStrip';
 import { PickupSheet } from '../components/PickupSheet';
@@ -66,6 +67,7 @@ export default function StatusScreen() {
 
   useEffect(() => demoService.onSpeedChange(setSpeed), []);
   const hideToast = useCallback(() => setToast(null), []);
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   if (!orderId) return <Redirect href="/" />;
   if (!order) return <View style={styles.screen} />;
@@ -76,15 +78,13 @@ export default function StatusScreen() {
 
   return (
     <View style={styles.screen}>
-      <LinearGradient
-        colors={[order.isReady ? 'rgba(60,240,177,0.30)' : 'rgba(60,240,177,0.14)', 'rgba(60,240,177,0)']}
-        style={styles.glow}
-      />
-      <Toast message={toast} onHide={hideToast} />
+      <AmbientGlow strong={order.isReady} />
 
-      <ScrollView
+      <Animated.ScrollView
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 14, paddingBottom: insets.bottom + 32 }]}
         showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: false })}
       >
         {/* Kopfzeile */}
         <FadeIn style={styles.topBar}>
@@ -118,7 +118,13 @@ export default function StatusScreen() {
 
         {/* Fahrzeug */}
         <FadeIn delay={80} style={styles.vehicle}>
-          <Text style={styles.hello}>Hallo {order.customerName}</Text>
+          <View style={styles.helloRow}>
+            <Text style={styles.hello}>Hallo {order.customerName}</Text>
+            <View style={styles.live}>
+              <PulseDot size={6} color={order.isReady ? colors.accent : '#FF5A5F'} />
+              <Text style={styles.liveText}>{order.isReady ? 'FERTIG' : 'LIVE'}</Text>
+            </View>
+          </View>
           <Text style={styles.car}>
             {order.vehicle.make} {order.vehicle.model}
           </Text>
@@ -131,18 +137,31 @@ export default function StatusScreen() {
 
         {/* Fortschritt */}
         <FadeIn delay={160} style={styles.ringWrap}>
-          <ProgressRing
-            progress={order.totalProgress}
-            done={order.isReady}
-            caption={order.isReady ? 'Fertig' : `Schritt ${order.currentIndex + 1} von ${STAGES.length}`}
-          />
-          <View style={styles.nowRow}>
-            {!order.isReady && <PulseDot />}
-            <Text style={styles.nowTitle}>{order.isReady ? 'Abholbereit' : current.title}</Text>
-          </View>
-          {!order.isReady && startedAt && (
-            <Text style={styles.nowSub}>läuft seit {formatDayTime(startedAt, now)} Uhr</Text>
-          )}
+          <Animated.View
+            style={{
+              opacity: scrollY.interpolate({ inputRange: [0, 320], outputRange: [1, 0.35], extrapolate: 'clamp' }),
+              transform: [
+                { translateY: scrollY.interpolate({ inputRange: [0, 320], outputRange: [0, 70], extrapolate: 'clamp' }) },
+                { scale: scrollY.interpolate({ inputRange: [-120, 0, 320], outputRange: [1.08, 1, 0.86], extrapolate: 'clamp' }) },
+              ],
+            }}
+          >
+            <ProgressRing
+              progress={order.totalProgress}
+              done={order.isReady}
+              caption={order.isReady ? 'Fertig' : `Schritt ${order.currentIndex + 1} von ${STAGES.length}`}
+            />
+          </Animated.View>
+          {/* key = Schritt → Titel blendet bei jedem Wechsel neu ein */}
+          <FadeIn key={order.currentIndex} offset={12} style={{ alignItems: 'center' }}>
+            <View style={styles.nowRow}>
+              {!order.isReady && <PulseDot />}
+              <Text style={styles.nowTitle}>{order.isReady ? 'Abholbereit' : current.title}</Text>
+            </View>
+            {!order.isReady && startedAt && (
+              <Text style={styles.nowSub}>läuft seit {formatDayTime(startedAt, now)} Uhr</Text>
+            )}
+          </FadeIn>
         </FadeIn>
 
         {/* Abholung */}
@@ -236,7 +255,38 @@ export default function StatusScreen() {
             </Pressable>
           </FadeIn>
         )}
-      </ScrollView>
+      </Animated.ScrollView>
+
+      {/* Milchglas-Kopfleiste, die beim Scrollen einblendet */}
+      <Animated.View
+        pointerEvents="none"
+        style={[
+          styles.sticky,
+          {
+            paddingTop: insets.top,
+            opacity: scrollY.interpolate({ inputRange: [140, 220], outputRange: [0, 1], extrapolate: 'clamp' }),
+            transform: [
+              { translateY: scrollY.interpolate({ inputRange: [140, 220], outputRange: [-12, 0], extrapolate: 'clamp' }) },
+            ],
+          },
+        ]}
+      >
+        <BlurView intensity={45} tint="dark" style={StyleSheet.absoluteFill} />
+        <View style={styles.stickyInner}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.stickyCar} numberOfLines={1}>
+              {order.vehicle.make} {order.vehicle.model}
+            </Text>
+            <Text style={styles.stickySub}>{order.isReady ? 'Abholbereit' : current.title}</Text>
+          </View>
+          <Text style={styles.stickyPct}>{Math.round(order.totalProgress * 100)}%</Text>
+        </View>
+        <View style={styles.stickyTrack}>
+          <View style={[styles.stickyFill, { width: `${order.totalProgress * 100}%` }]} />
+        </View>
+      </Animated.View>
+
+      <Toast message={toast} onHide={hideToast} />
 
       <PickupSheet
         orderId={order.id}
@@ -267,6 +317,43 @@ const styles = StyleSheet.create({
   },
   vehicle: { marginTop: 26 },
   hello: { color: colors.textDim, fontSize: 15, fontWeight: '600' },
+  helloRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  live: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  liveText: { color: colors.text, fontSize: 10.5, fontWeight: '900', letterSpacing: 1.4 },
+  sticky: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(10,12,15,0.55)',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.06)',
+    overflow: 'hidden',
+  },
+  stickyInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 22,
+    paddingVertical: 12,
+    maxWidth: 560,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  stickyCar: { color: colors.text, fontSize: 16, fontWeight: '800' },
+  stickySub: { color: colors.accent, fontSize: 12.5, fontWeight: '700', marginTop: 1 },
+  stickyPct: { color: colors.text, fontSize: 22, fontWeight: '900' },
+  stickyTrack: { height: 2, backgroundColor: 'rgba(255,255,255,0.06)' },
+  stickyFill: { height: 2, backgroundColor: colors.accent },
   car: { color: colors.text, fontSize: 30, fontWeight: '900', letterSpacing: -0.8, marginTop: 4 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12, flexWrap: 'wrap' },
   swatch: { width: 14, height: 14, borderRadius: 7, borderWidth: 1, borderColor: 'rgba(255,255,255,0.25)' },

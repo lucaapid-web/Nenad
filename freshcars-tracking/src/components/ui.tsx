@@ -1,5 +1,4 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
@@ -18,6 +17,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, nativeDriver, radius } from '../theme';
+import { AmbientGlow, Confetti, Shimmer } from './fx';
 import { FadeIn, PressableScale } from './motion';
 
 /** Unterseite mit Zurück-Button, Titel und Scrollbereich. */
@@ -35,7 +35,7 @@ export function Screen({
   const insets = useSafeAreaInsets();
   return (
     <View style={styles.screen}>
-      <LinearGradient colors={['rgba(60,240,177,0.12)', 'rgba(60,240,177,0)']} style={styles.glow} />
+      <AmbientGlow />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
           contentContainerStyle={[styles.content, { paddingTop: insets.top + 14, paddingBottom: 24 }]}
@@ -138,6 +138,7 @@ export function PrimaryButton({
         <>
           <Text style={styles.buttonText}>{label}</Text>
           <MaterialCommunityIcons name={icon as any} size={20} color={colors.bg} />
+          {!disabled && <Shimmer />}
         </>
       )}
     </PressableScale>
@@ -175,7 +176,7 @@ export function Success({
 
   return (
     <View style={[styles.screen, styles.successWrap, { paddingTop: insets.top, paddingBottom: insets.bottom + 20 }]}>
-      <LinearGradient colors={['rgba(60,240,177,0.25)', 'rgba(60,240,177,0)']} style={styles.glow} />
+      <AmbientGlow strong />
       <View style={styles.successCenter}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Animated.View
@@ -190,6 +191,7 @@ export function Success({
           <Animated.View style={[styles.successCheck, { transform: [{ scale: pop }] }]}>
             <MaterialCommunityIcons name="check" size={52} color={colors.bg} />
           </Animated.View>
+          <Confetti run />
         </View>
         <FadeIn delay={250}>
           <Text style={styles.successTitle}>{title}</Text>

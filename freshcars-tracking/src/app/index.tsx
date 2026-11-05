@@ -1,6 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
@@ -17,6 +16,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Logo } from '../components/Brand';
+import { AmbientGlow, DrivingCar, Shimmer } from '../components/fx';
 import { FadeIn, PressableScale } from '../components/motion';
 import { company } from '../config/company';
 import { DEMO_ORDERS } from '../data/demoOrders';
@@ -67,12 +67,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.screen}>
-      <LinearGradient
-        colors={['rgba(60,240,177,0.22)', 'rgba(60,240,177,0)']}
-        style={styles.glow}
-        start={{ x: 0.2, y: 0 }}
-        end={{ x: 0.6, y: 1 }}
-      />
+      <AmbientGlow />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
           contentContainerStyle={[styles.content, { paddingTop: insets.top + 28, paddingBottom: insets.bottom + 24 }]}
@@ -86,6 +81,7 @@ export default function LoginScreen() {
           <FadeIn delay={120} style={styles.hero}>
             <Text style={styles.h1}>Wo ist{'\n'}mein Auto?</Text>
             <Text style={styles.sub}>Verfolgen Sie Ihre Reparatur live – Schritt für Schritt.</Text>
+            <DrivingCar />
           </FadeIn>
 
           <Animated.View style={{ transform: [{ translateX: shake }] }}>
@@ -138,6 +134,7 @@ export default function LoginScreen() {
                 <>
                   <Text style={styles.buttonText}>Status anzeigen</Text>
                   <MaterialCommunityIcons name="arrow-right" size={20} color={colors.bg} />
+                  <Shimmer />
                 </>
               )}
             </PressableScale>
@@ -199,7 +196,7 @@ const styles = StyleSheet.create({
   glow: { position: 'absolute', top: -80, left: -60, right: -60, height: 460, borderRadius: 300 },
   content: { paddingHorizontal: 24, flexGrow: 1, maxWidth: 520, width: '100%', alignSelf: 'center' },
   tagline: { color: colors.textDim, fontSize: 12, marginTop: 4, letterSpacing: 1.2, fontWeight: '600' },
-  hero: { marginTop: 44, marginBottom: 30 },
+  hero: { marginTop: 40, marginBottom: 22 },
   h1: { color: colors.text, fontSize: 44, lineHeight: 48, fontWeight: '900', letterSpacing: -1.5 },
   sub: { color: colors.textDim, fontSize: 16, lineHeight: 23, marginTop: 14 },
   label: { color: colors.textDim, fontSize: 13, fontWeight: '700', marginBottom: 8, marginLeft: 4 },
